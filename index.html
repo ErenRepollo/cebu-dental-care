@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cebu Dental Care Center | Book an Appointment</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4fafa;--surface:#fff;--ink:#12303a;--muted:#4d6a72;--brand:#1f8a89;--on:#fff;--soft:#dff0ee;--line:#c8e0dd;--sun:#f2c14e;--bad:#c0392b;box-sizing:border-box}
+@media(prefers-color-scheme:dark){:root{--bg:#0e2227;--surface:#153038;--ink:#e6f3f2;--muted:#9bbcc0;--brand:#4fc3c0;--on:#08262a;--soft:#1b3d45;--line:#2a4f58;--bad:#ff8a7a}}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 Figtree,system-ui,sans-serif;padding-bottom:72px}
+h1,h2,h3{font-family:"DM Serif Display",Georgia,serif;font-weight:400;line-height:1.15;margin:0}
+a{color:inherit}:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.alert{background:var(--sun);color:#12303a;text-align:center;padding:8px 12px;font-size:.92rem;padding-top:calc(8px + env(safe-area-inset-top,0px))}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 0;gap:12px;flex-wrap:wrap}
+.logo{font-family:"DM Serif Display",Georgia,serif;font-size:1.2rem;text-decoration:none}
+nav{display:flex;gap:16px;align-items:center;font-size:.95rem}nav a{text-decoration:none}
+.btn{display:inline-block;background:var(--brand);color:var(--on);border:0;border-radius:999px;padding:11px 22px;font:700 1rem Figtree,sans-serif;text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}.btn:disabled{opacity:.6}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;padding:36px 0 48px}
+.hero h1{font-size:clamp(2.1rem,6vw,3.6rem)}.hero p{max-width:52ch;color:var(--muted);font-size:1.1rem}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.panel{background:var(--soft);border-radius:28px 28px 28px 4px;padding:24px}
+.score{font-family:"DM Serif Display",Georgia,serif;font-size:3.2rem;line-height:1}.stars{color:var(--sun);letter-spacing:2px}
+.panel dl{margin:14px 0 0;display:grid;gap:10px}.panel dt{font-weight:700;font-size:.9rem}.panel dd{margin:0;color:var(--muted)}
+.open{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.85rem;font-weight:700;background:var(--brand);color:var(--on)}
+section{padding:44px 0}h2.t{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:8px}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card h3{font-size:1.25rem;margin-bottom:6px}.card p{margin:0;color:var(--muted);font-size:.95rem}
+.card button{margin-top:12px}
+blockquote{margin:0;padding:4px 0 4px 16px;border-left:4px solid var(--sun)}blockquote p{margin:0 0 6px}blockquote cite{color:var(--muted);font-size:.85rem;font-style:normal}
+.book{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+form{display:grid;gap:14px}label,legend{font-weight:700;font-size:.9rem;display:block;margin-bottom:4px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:11px 12px}
+fieldset{border:0;padding:0;margin:0}
+.slots{display:flex;flex-wrap:wrap;gap:8px}.slots label{margin:0;font-weight:500}
+.slots input{position:absolute;opacity:0;width:1px;height:1px}
+.slots span{display:block;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.slots input:checked+span{background:var(--brand);color:var(--on);border-color:var(--brand);font-weight:700}
+.slots input:disabled+span{opacity:.4;text-decoration:line-through;cursor:not-allowed}
+.slots input:focus-visible+span{outline:3px solid var(--sun);outline-offset:2px}
+.err{color:var(--bad);font-size:.88rem;min-height:1.1em;margin:2px 0 0}
+.side h3{font-size:1.5rem;margin-bottom:10px}.side ul{padding-left:18px;color:var(--muted)}
+.done{display:none;background:var(--soft);border-radius:16px;padding:20px}
+.done h3{font-size:1.5rem;margin-bottom:6px}.code{font:700 2rem/1 "DM Serif Display",Georgia,serif;letter-spacing:4px;margin:8px 0}
+dl.sum{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:12px 0}dl.sum dt{font-weight:700}dl.sum dd{margin:0}
+.manage{max-width:560px}.manage form{grid-template-columns:1fr 1fr auto;align-items:end}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+summary{font-weight:700;cursor:pointer}details p{margin:8px 0 0;color:var(--muted)}
+footer{padding:28px 0 36px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+.bar{display:none;position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));gap:10px;z-index:5}
+.bar .btn{flex:1;text-align:center}
+@media(max-width:760px){.hero,.book{grid-template-columns:1fr}.book{padding:20px}.manage form{grid-template-columns:1fr}nav a.h{display:none}.bar{display:flex}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="alert">Toothache or dental emergency? Call <a href="tel:+639062421519"><strong>+63 906 242 1519</strong></a> now.</div>
+<div class="wrap">
+<header>
+  <a class="logo" href="#top">Cebu Dental Care Center</a>
+  <nav><a class="h" href="#services">Services</a><a class="h" href="#manage">My booking</a><a class="h" href="#faq">FAQ</a><a class="btn ghost" href="admin.html">Admin</a><a class="btn" href="#book">Book a visit</a></nav>
+</header>
+<main id="top">
+<div class="hero">
+  <div>
+    <h1>Thoughtful, gentle dental care in the heart of Cebu City.</h1>
+    <p>From check-ups to cosmetic work, our team explains every step, answers your questions, and keeps you comfortable.</p>
+    <div class="cta"><a class="btn" href="#book">Book an appointment</a><a class="btn ghost" href="tel:+63322533206">Call (032) 253 3206</a></div>
+  </div>
+  <aside class="panel" aria-label="Clinic at a glance">
+    <div class="score">4.8</div><div class="stars" aria-hidden="true">★★★★★</div><div>116 Google reviews</div>
+    <dl>
+      <div><dt>Today</dt><dd><span class="open" id="openNow">Checking...</span></dd></div>
+      <div><dt>Address</dt><dd>Unit 13, St. Patrick's Square, R. Aboitiz St, Cebu City 6000</dd></div>
+      <div><dt>Directions</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=Cebu+Dental+Care+Center+Aboitiz+St+Cebu+City">Open in Google Maps</a></dd></div>
+    </dl>
+  </aside>
+</div>
+
+<section id="services"><h2 class="t">What we treat</h2>
+<p class="lead">X-rays and intra-oral cameras help us show you what we see before we treat. Pick a service to start booking.</p>
+<div class="grid" id="svcGrid"></div></section>
+
+<section><h2 class="t">What patients say</h2><p class="lead">Excerpts from Google reviews.</p>
+<div class="grid">
+<blockquote><p>So gentle and kind. The best dentist I've ever visited.</p><cite>Google review</cite></blockquote>
+<blockquote><p>She is a perfectionist, so no worries on getting what you want.</p><cite>Google review, dental bonding</cite></blockquote>
+<blockquote><p>Their expertise and professionalism were evident throughout my visit.</p><cite>Google review</cite></blockquote>
+</div></section>
+
+<section id="book"><h2 class="t">Book an appointment</h2>
+<p class="lead">Pick a date to see which times are still open. We confirm by phone or message.</p>
+<div class="book">
+<div>
+<form id="f" novalidate>
+  <div><label for="svc">Service</label><select id="svc"><option value="">Select a service</option></select><p class="err" id="e-svc"></p></div>
+  <div><label for="date">Date (closed Sundays)</label><input id="date" type="date"><p class="err" id="e-date"></p></div>
+  <fieldset><legend>Time</legend><div class="slots" id="slots"></div><p class="err" id="e-time"></p></fieldset>
+  <div><label for="name">Full name</label><input id="name" autocomplete="name"><p class="err" id="e-name"></p></div>
+  <div><label for="phone">Mobile number</label><input id="phone" type="tel" autocomplete="tel" placeholder="+63 9XX XXX XXXX"><p class="err" id="e-phone"></p></div>
+  <div><label for="note">Notes (optional)</label><textarea id="note" rows="3" placeholder="Pain, allergies, or anything we should know"></textarea></div>
+  <button class="btn" type="submit" id="go">Book appointment</button><p class="err" id="e-form"></p>
+</form>
+<div class="done" id="done" role="status" tabindex="-1">
+  <h3>Request received</h3><p>Save this reference code. You need it to view or cancel your booking.</p>
+  <div class="code" id="ref"></div><dl class="sum" id="sum"></dl>
+  <p>Your slot is held. The clinic will contact you to confirm.</p>
+  <div class="cta"><button class="btn" id="ics" type="button">Add to calendar</button><button class="btn ghost" id="copy" type="button">Copy code</button><button class="btn ghost" id="again" type="button">Book another</button></div>
+</div>
+</div>
+<div class="side"><h3>Before you come</h3>
+<ul><li>Bring a valid ID and any recent dental X-rays.</li><li>Tell us about medicines and allergies.</li><li>Arrive 10 minutes early for your first visit.</li><li>Need to change plans? Use "My booking" below.</li></ul>
+<p><strong>Phone</strong><br><a href="tel:+63322533206">(032) 253 3206</a> · <a href="tel:+639062421519">+63 906 242 1519</a></p>
+<p><a href="http://cebudentalcare.com/">cebudentalcare.com</a> · <a href="https://www.facebook.com/cebudentalcarecenter/">Facebook</a> · <a href="https://www.instagram.com/cebudentalcarecenter/">Instagram</a></p></div>
+</div></section>
+
+<section id="manage"><h2 class="t">My booking</h2><p class="lead">Look up or cancel a booking with your reference code and phone number.</p>
+<div class="manage"><form id="mf" novalidate>
+<div><label for="mc">Reference code</label><input id="mc" maxlength="6" autocapitalize="characters"></div>
+<div><label for="mp">Mobile number</label><input id="mp" type="tel"></div>
+<button class="btn" type="submit">Find</button></form>
+<p class="err" id="e-m"></p><div class="done" id="mres"><dl class="sum" id="msum"></dl><button class="btn ghost" id="cancel" type="button">Cancel this booking</button></div></div></section>
+
+<section id="faq"><h2 class="t">Common questions</h2><p class="lead"></p>
+<details><summary>Is my booking confirmed right away?</summary><p>Your slot is held immediately. The clinic contacts you to confirm, usually by call or message.</p></details>
+<details><summary>Can I book for the same day?</summary><p>Online booking opens from tomorrow. For same-day or urgent care, call the clinic.</p></details>
+<details><summary>How do I cancel or reschedule?</summary><p>Use "My booking" with your code and phone. To reschedule, cancel and book a new time.</p></details>
+<details><summary>Where are you?</summary><p>Unit 13, St. Patrick's Square, R. Aboitiz St, Cebu City 6000.</p></details>
+</section>
+</main>
+<footer><a href="admin.html">Staff login</a> · Cebu Dental Care Center, Cebu City, Philippines. Your details are used only to manage your appointment.</footer>
+</div>
+<div class="bar"><a class="btn ghost" href="tel:+639062421519">Call</a><a class="btn" href="#book">Book</a></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function(){
+var db=window.supabase.createClient("https://ircukhvpmbvrprqiqauk.supabase.co","sb_publishable_bVZXbJoPjPGoWfCuQM1BSA_9UXNVysf");
+var $=function(i){return document.getElementById(i)};
+var times=["9:00 AM","10:00 AM","11:00 AM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM"];
+var svcs=[["Check-up and cleaning","Exam, cleaning, and advice for everyday oral health."],["Dental bonding","Reshape chips and gaps for a natural-looking smile."],["Cosmetic consultation","Talk through smile goals and the options that fit."],["Fillings and restorations","Repair damaged or worn teeth."],["Toothache or emergency","Pain, swelling, or a broken tooth."]];
+var d=document;
+svcs.forEach(function(s){
+  var o=d.createElement("option");o.textContent=s[0];$("svc").appendChild(o);
+  var c=d.createElement("div");c.className="card";
+  c.innerHTML="<h3></h3><p></p><button class='btn ghost' type='button'>Book this</button>";
+  c.querySelector("h3").textContent=s[0];c.querySelector("p").textContent=s[1];
+  c.querySelector("button").onclick=function(){$("svc").value=s[0];location.hash="book";$("date").focus()};
+  $("svcGrid").appendChild(c);
+});
+$("slots").innerHTML=times.map(function(t){return '<label><input type="radio" name="time" value="'+t+'"><span>'+t+'</span></label>'}).join("");
+function iso(x){return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
+var tm=new Date();tm.setDate(tm.getDate()+1);$("date").min=iso(tm);
+// open now badge (Manila time, assumed Mon-Sat 9-6)
+var ph=new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Manila"}));
+var op=ph.getDay()!==0&&ph.getHours()>=9&&ph.getHours()<18;
+$("openNow").textContent=op?"Open now, closes 6 PM":"Closed now";
+if(!op)$("openNow").style.background="var(--line)",$("openNow").style.color="var(--ink)";
+function radios(){return document.querySelectorAll('input[name="time"]')}
+async function loadSlots(){
+  var v=$("date").value;$("e-time").textContent="";
+  radios().forEach(function(r){r.checked=false;r.disabled=!v});
+  if(!v)return;
+  if(new Date(v+"T00:00").getDay()===0){radios().forEach(function(r){r.disabled=true});$("e-time").textContent="We are closed on Sundays. Pick another day.";return}
+  var res=await db.rpc("booked_slots",{p_date:v});
+  if(res.error){return}
+  var taken=res.data||[];
+  radios().forEach(function(r){r.disabled=taken.indexOf(r.value)>-1});
+}
+radios().forEach(function(r){r.disabled=true});
+$("date").addEventListener("change",loadSlots);
+var last=null;
+function rows(dl,r){dl.innerHTML="";r.forEach(function(x){var a=d.createElement("dt"),b=d.createElement("dd");a.textContent=x[0];b.textContent=x[1];dl.appendChild(a);dl.appendChild(b)})}
+function pretty(v){return new Date(v+"T00:00").toLocaleDateString("en-PH",{weekday:"long",year:"numeric",month:"long",day:"numeric"})}
+$("f").addEventListener("submit",async function(e){
+  e.preventDefault();$("e-form").textContent="";
+  var v={svc:$("svc").value,date:$("date").value,name:$("name").value.trim(),phone:$("phone").value.trim()};
+  var t=document.querySelector('input[name="time"]:checked'),bad=false;
+  function chk(id,ok,m){if(id!=="time"||!$("e-time").textContent.startsWith("We are"))$("e-"+id).textContent=ok?"":m;if(!ok)bad=true}
+  chk("svc",v.svc,"Choose a service.");chk("date",v.date,"Pick a date.");chk("time",t,"Pick a time.");
+  chk("name",v.name.length>1,"Enter your name.");chk("phone",/^[+\d][\d\s()-]{6,}$/.test(v.phone),"Enter a valid phone number.");
+  if(bad)return;
+  var b=$("go");b.disabled=true;b.textContent="Booking...";
+  var res=await db.rpc("book_appointment",{p_service:v.svc,p_date:v.date,p_time:t.value,p_name:v.name,p_phone:v.phone,p_notes:$("note").value.trim()||null});
+  b.disabled=false;b.textContent="Book appointment";
+  if(res.error){
+    var m=res.error.message||"";
+    if(m.indexOf("slot_taken")>-1){$("e-form").textContent="That time was just taken. Pick another.";loadSlots()}
+    else $("e-form").textContent="Could not book online. Please call (032) 253 3206.";
+    return;
+  }
+  last={code:res.data,v:v,time:t.value};
+  $("ref").textContent=res.data;
+  rows($("sum"),[["Service",v.svc],["Date",pretty(v.date)],["Time",t.value],["Name",v.name],["Phone",v.phone]]);
+  $("f").style.display="none";$("done").style.display="block";$("done").focus();
+});
+$("again").onclick=function(){$("done").style.display="none";$("f").style.display="grid";$("f").reset();loadSlots()};
+$("copy").onclick=function(){var b=$("copy");try{navigator.clipboard.writeText(last.code).then(function(){b.textContent="Copied"})}catch(x){b.textContent=last.code}};
+$("ics").onclick=function(){
+  var m=/(\d+):(\d+) (AM|PM)/.exec(last.time),h=+m[1]%12+(m[3]==="PM"?12:0),p=function(n){return String(n).padStart(2,"0")};
+  var day=last.v.date.replace(/-/g,""),s=day+"T"+p(h)+m[2]+"00",en=day+"T"+p(h+1)+m[2]+"00";
+  var txt=["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT","UID:"+last.code+"@cebudentalcare","DTSTAMP:"+s,"DTSTART:"+s,"DTEND:"+en,"SUMMARY:Dental visit - Cebu Dental Care Center","LOCATION:Unit 13 St. Patrick's Square R. Aboitiz St Cebu City","DESCRIPTION:Ref "+last.code+" ("+last.v.svc+")","END:VEVENT","END:VCALENDAR"].join("\r\n");
+  var a=d.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"text/calendar"}));a.download="dental-appointment.ics";a.click();
+};
+// manage booking
+var cur=null;
+$("mf").addEventListener("submit",async function(e){
+  e.preventDefault();$("e-m").textContent="";$("mres").style.display="none";
+  var c=$("mc").value.trim(),p=$("mp").value.trim();
+  if(!c||!p){$("e-m").textContent="Enter both your code and phone number.";return}
+  var res=await db.rpc("lookup_appointment",{p_code:c,p_phone:p});
+  if(res.error||!res.data||!res.data.length){$("e-m").textContent="No booking found. Check your code and phone number.";return}
+  var r=res.data[0];cur={c:c,p:p};
+  rows($("msum"),[["Service",r.service],["Date",pretty(r.appt_date)],["Time",r.appt_time],["Status",r.status]]);
+  $("cancel").style.display=(r.status==="pending"||r.status==="confirmed")?"inline-block":"none";
+  $("mres").style.display="block";
+});
+$("cancel").onclick=async function(){
+  if(!confirm("Cancel this booking?"))return;
+  var res=await db.rpc("cancel_appointment",{p_code:cur.c,p_phone:cur.p});
+  if(res.error||!res.data){$("e-m").textContent="Could not cancel. Please call the clinic.";return}
+  $("mf").requestSubmit();
+};
+})();
+</script>
+</body>
+</html>
