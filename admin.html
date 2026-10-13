@@ -121,6 +121,7 @@ function render(){
     cell(tr,a.appt_time);
     var p=cell(tr,a.patient_name);p.appendChild(d.createElement("br"));
     var ph=d.createElement("a");ph.href="tel:"+a.phone.replace(/[^\d+]/g,"");ph.textContent=a.phone;p.appendChild(ph);
+    if(a.email){var em=d.createElement("div");em.className="note";em.textContent=a.email;p.appendChild(em)}
     if(a.notes){var n=d.createElement("div");n.className="note";n.textContent="Note: "+a.notes;p.appendChild(n)}
     cell(tr,a.service);cell(tr,a.ref_code||"");
     var st=d.createElement("td"),pl=d.createElement("span");pl.className="pill "+a.status;pl.textContent=a.status;st.appendChild(pl);tr.appendChild(st);
