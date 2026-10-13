@@ -1,4 +1,4 @@
--- Run AFTER 1, 2, 3 in Supabase > SQL Editor.
+-- Run AFTER 1, 2, 3 in Supabase > SQL Editor. Safe to re-run.
 -- 1) email column + updated booking function
 alter table public.appointments add column if not exists email text check (char_length(email) <= 200);
 
@@ -19,14 +19,27 @@ exception when unique_violation then raise exception 'slot_taken';
 end $$;
 grant execute on function public.book_appointment to anon, authenticated;
 
--- 2) Call the "notify" Edge Function on every new booking or status change.
---    Replace CHANGE_ME with the SAME value you set as WEBHOOK_SECRET.
+-- 2) Email trigger using pg_net (works on every Supabase project)
+--    Replace CHANGE_ME below with the SAME value you set as WEBHOOK_SECRET.
+create extension if not exists pg_net with schema extensions;
+
+create or replace function public.notify_appointment() returns trigger
+language plpgsql security definer set search_path = public, extensions as $$
+begin
+  begin
+    perform net.http_post(
+      url     := 'https://ircukhvpmbvrprqiqauk.supabase.co/functions/v1/notify',
+      headers := jsonb_build_object('Content-Type','application/json','x-webhook-secret','CHANGE_ME'),
+      body    := jsonb_build_object('type', TG_OP, 'record', to_jsonb(NEW),
+                   'old_record', case when TG_OP = 'UPDATE' then to_jsonb(OLD) else null end)
+    );
+  exception when others then
+    null;  -- an email problem must never block a booking
+  end;
+  return NEW;
+end $$;
+
 drop trigger if exists notify_appointments on public.appointments;
 create trigger notify_appointments
 after insert or update of status on public.appointments
-for each row execute function supabase_functions.http_request(
-  'https://ircukhvpmbvrprqiqauk.supabase.co/functions/v1/notify',
-  'POST',
-  '{"Content-Type":"application/json","x-webhook-secret":"CHANGE_ME"}',
-  '{}',
-  '5000');
+for each row execute function public.notify_appointment();
