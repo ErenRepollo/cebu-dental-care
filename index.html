@@ -131,6 +131,20 @@ dialog{padding:0;border:0;border-radius:26px;overflow:hidden;width:min(860px,cal
 .pw{position:relative}.pw input{padding-right:68px}.pw button{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--brand);font:700 .85rem Figtree,sans-serif;cursor:pointer;padding:6px 8px}
 @media(max-width:700px){.am{grid-template-columns:1fr}.ai{display:none}.ar{padding:24px 20px}}
 
+/* gallery captions + photo lightbox */
+.gal figure{cursor:zoom-in}
+.gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;background:linear-gradient(transparent,rgba(10,35,42,.78));color:#fff;font-size:.88rem;font-weight:600;opacity:0;transform:translateY(8px);transition:.3s}
+.gal figure:hover figcaption,.gal figure:focus-visible figcaption{opacity:1;transform:none}
+.lb{position:fixed;inset:0;z-index:200;background:rgba(8,26,31,.92);display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.lb.open{display:flex}
+.lb img{max-width:min(90vw,1000px);max-height:80vh;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.lb .cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;color:#fff;font-weight:600}
+.lb .cnt{position:absolute;top:26px;left:22px;color:#fff;font-size:.9rem;opacity:.85}
+.lb .x,.lb .nav{position:absolute;border:1px solid var(--line);background:rgba(255,255,255,.12);color:#fff;width:44px;height:44px;border-radius:50%;font-size:1.25rem;cursor:pointer;display:grid;place-items:center;transition:background .2s}
+.lb .x:hover,.lb .nav:hover{background:rgba(255,255,255,.28)}
+.lb .x{top:18px;right:18px}
+.lb .nav.prev{left:14px;top:50%;transform:translateY(-50%)}
+.lb .nav.next{right:14px;top:50%;transform:translateY(-50%)}
 </style>
 </head>
 <body>
@@ -169,11 +183,11 @@ dialog{padding:0;border:0;border-radius:26px;overflow:hidden;width:min(860px,cal
 
 <section id="gallery"><div class="center rv"><div class="eyebrow">Inside the clinic</div><h2 class="t">Take a look around</h2></div>
 <div class="gal rv" style="margin-top:24px">
-<figure><img src="images/photos/clinic-1.jpg" alt="Clinic interior" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure>
-<figure><img src="images/photos/clinic-2.jpg" alt="Treatment room" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure>
-<figure><img src="images/photos/clinic-3.jpg" alt="Dental equipment" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure>
-<figure><img src="images/photos/clinic-4.jpg" alt="Dentist with patient" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure>
-<figure><img src="images/photos/clinic-5.jpg" alt="Our team" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure></div></section>
+<figure tabindex="0" role="button" aria-label="View photo: Reception and waiting lounge"><img src="images/photos/clinic-1.jpg" alt="Clinic interior" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>Reception &amp; waiting lounge</figcaption></figure>
+<figure tabindex="0" role="button" aria-label="View photo: Treatment room"><img src="images/photos/clinic-2.jpg" alt="Treatment room" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>Treatment room</figcaption></figure>
+<figure tabindex="0" role="button" aria-label="View photo: Digital X-ray equipment"><img src="images/photos/clinic-3.jpg" alt="Dental equipment" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>Digital X-ray, on screen</figcaption></figure>
+<figure tabindex="0" role="button" aria-label="View photo: Dentist with patient"><img src="images/photos/clinic-4.jpg" alt="Dentist with patient" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>We show you what we see</figcaption></figure>
+<figure tabindex="0" role="button" aria-label="View photo: Our team"><img src="images/photos/clinic-5.jpg" alt="Our team" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>Our team</figcaption></figure></div></section>
 
 <section id="reviews"><div class="center rv"><div class="eyebrow">Reviews</div><h2 class="t">What patients say</h2><p class="lead">Excerpts from Google reviews.</p></div>
 <div class="rev rv">
@@ -392,6 +406,41 @@ function drawMine(){
     if(a.status!=="cancelled"){var qd=d.createElement("div");qd.className="qr";var im=d.createElement("img");im.alt="QR "+a.ref_code;im.src=qrUrl(a.ref_code);qd.appendChild(im);w.appendChild(qd)}
     box.appendChild(w)})}
 live();
+})();
+</script>
+<div class="lb" id="lb" role="dialog" aria-label="Photo viewer" aria-modal="true">
+  <button class="x" id="lbX" aria-label="Close">&#10005;</button>
+  <span class="cnt" id="lbCnt"></span>
+  <img id="lbImg" alt="">
+  <button class="nav prev" id="lbPrev" aria-label="Previous photo">&#8249;</button>
+  <button class="nav next" id="lbNext" aria-label="Next photo">&#8250;</button>
+  <div class="cap" id="lbCap"></div>
+</div>
+<script>
+(function(){
+  var figs=[].slice.call(document.querySelectorAll(".gal figure"));
+  if(!figs.length)return;
+  var lb=document.getElementById("lb"),img=document.getElementById("lbImg"),
+      cap=document.getElementById("lbCap"),cnt=document.getElementById("lbCnt"),i=0;
+  function show(n){i=(n+figs.length)%figs.length;
+    var f=figs[i],im=f.querySelector("img");
+    img.src=im.currentSrc||im.src;img.alt=im.alt;
+    cap.textContent=(f.querySelector("figcaption")||{textContent:im.alt}).textContent;
+    cnt.textContent=(i+1)+" / "+figs.length;}
+  function open(n){show(n);lb.classList.add("open");document.body.style.overflow="hidden";}
+  function close(){lb.classList.remove("open");document.body.style.overflow="";}
+  figs.forEach(function(f,n){
+    f.addEventListener("click",function(){open(n)});
+    f.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();open(n)}});});
+  document.getElementById("lbX").onclick=close;
+  document.getElementById("lbPrev").onclick=function(){show(i-1)};
+  document.getElementById("lbNext").onclick=function(){show(i+1)};
+  lb.addEventListener("click",function(e){if(e.target===lb)close()});
+  document.addEventListener("keydown",function(e){
+    if(!lb.classList.contains("open"))return;
+    if(e.key==="Escape")close();
+    if(e.key==="ArrowLeft")show(i-1);
+    if(e.key==="ArrowRight")show(i+1);});
 })();
 </script>
 </body>
