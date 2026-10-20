@@ -1,173 +1,341 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
-<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-<title>Staff | Cebu Dental Care Center</title>
-<style>
-:root{--bg:#f1f6f6;--surface:#fff;--ink:#12303a;--muted:#4d6a72;--brand:#1f8a89;--on:#fff;--soft:#dff0ee;--line:#c8e0dd;--bad:#c0392b;--warn:#b7791f;box-sizing:border-box}
-@media(prefers-color-scheme:dark){:root{--bg:#0e2227;--surface:#153038;--ink:#e6f3f2;--muted:#9bbcc0;--brand:#4fc3c0;--on:#08262a;--soft:#1b3d45;--line:#2a4f58;--bad:#ff8a7a;--warn:#f2c14e}}
-*,*::before,*::after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 .95rem/1.5 system-ui,-apple-system,Segoe UI,sans-serif;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
-:focus-visible{outline:3px solid #f2c14e;outline-offset:2px}
-.wrap{max-width:1180px;margin:0 auto;padding:16px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-h1{font-size:1.3rem;margin:0}
-.btn{background:var(--brand);color:var(--on);border:0;border-radius:8px;padding:8px 14px;font:600 .9rem system-ui,sans-serif;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
-.btn.sm{padding:4px 9px;font-size:.8rem}.btn.bad{background:var(--bad);color:#fff}
-input,select{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px}
-.login{max-width:360px;margin:12vh auto;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:12px}
-.login input{width:100%}.err{color:var(--bad);min-height:1.2em;margin:0}
-#app{display:none}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-.stat b{display:block;font-size:1.8rem;line-height:1.1}.stat span{color:var(--muted);font-size:.85rem}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.filters input[type=search]{flex:1;min-width:160px}
-.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
-table{border-collapse:collapse;width:100%;min-width:820px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-size:.8rem;color:var(--muted);font-weight:600}tr:last-child td{border-bottom:0}
-.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.78rem;font-weight:700;background:var(--soft)}
-.pill.pending{background:#fdeccb;color:#7a4b00}.pill.confirmed{background:var(--brand);color:var(--on)}
-.pill.cancelled{background:transparent;border:1px solid var(--line);color:var(--muted)}
-.acts{display:flex;gap:6px;flex-wrap:wrap}.note{color:var(--muted);font-size:.82rem;max-width:220px}
-.empty{padding:28px;text-align:center;color:var(--muted)}
-.meta{color:var(--muted);font-size:.82rem;margin:8px 2px}
-body{background:radial-gradient(900px 500px at 8% -10%,rgba(31,138,137,.22),transparent 60%),radial-gradient(700px 420px at 100% 20%,rgba(242,193,78,.18),transparent 60%),var(--bg);background-attachment:fixed;min-height:100vh}
-h1{display:flex;align-items:center;gap:10px}h1 img{border-radius:9px}
-.stats{grid-template-columns:repeat(4,1fr)}
-.stat{display:flex;flex-direction:column;justify-content:center;box-shadow:0 6px 20px rgba(18,48,58,.07);border-top:4px solid var(--brand)}
-.stat:nth-child(1){border-top-color:#f2c14e}.stat:nth-child(3){border-top-color:#7fd1ce}
-.filters select{flex:0 0 auto}.filters input[type=search]{flex:1 1 220px}
-.tbl{box-shadow:0 6px 20px rgba(18,48,58,.07)}thead th{background:var(--soft);color:var(--ink)}
-tbody tr:hover{background:rgba(31,138,137,.06)}
-.top>div{display:flex;gap:8px;flex-wrap:wrap}
-@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.filters select,.filters input{flex:1 1 100%}}
-</style>
-</head>
 <body>
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
+<div id="prog" aria-hidden="true"></div>
+<div class="alert">Toothache or dental emergency? Call <a href="tel:+639062421519"><strong>+63 906 242 1519</strong></a> now.</div>
 <div class="wrap">
+<header class="nav" id="nav">
+  <a class="logo" href="#top"><img src="images/logo.svg" alt="" width="36" height="36">Cebu Dental Care Center</a>
+  <nav>
+    <a class="h" href="#services">Services</a><a class="h" href="#about">Why us</a><a class="h" href="#faq">FAQ</a><a class="h" href="#mybk" id="navmy" style="display:none">My bookings</a>
+    <span class="who" id="who"></span>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    <button class="btn ghost small" id="login" type="button">Log in / Sign up</button>
+    <button class="btn ghost small" id="out" type="button" style="display:none">Log out</button>
+    <a class="btn small" href="#book" data-book>Book a visit</a>
+  </nav>
+</header>
+<main id="top">
+<div class="hero">
+  <div>
+    <span class="kicker"><span class="dot"></span>Cebu City&rsquo;s trusted dental clinic</span>
+    <h1>Thoughtful, gentle dental care in the heart of <em>Cebu City</em>.</h1>
+    <p class="sub">From check-ups to cosmetic work, our team explains every step, answers your questions, and keeps you comfortable — with online booking in under a minute.</p>
+    <div class="cta"><a class="btn" href="#book" data-book>Book an appointment <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn ghost" href="tel:+63322533206">Call (032) 253 3206</a></div>
+    <div class="hero-stats">
+      <div class="hstat"><b><span data-n="4.8" data-dec="1">0</span><small>★</small></b><span>Google rating</span></div>
+      <div class="hstat"><b><span data-n="116">0</span></b><span>Happy reviews</span></div>
+      <div class="hstat"><b><span data-n="10">0</span>+</b><span>Years of care</span></div>
+      <div class="hstat"><b><span data-n="8">0</span>am–6pm</b><span>Mon–Sat</span></div>
+    </div>
+  </div>
+  <div class="hero-vis">
+    <div class="hero-frame"><img src="images/hero.jpg" alt="Dentist gently examining a smiling patient in a modern clinic" width="1285" height="720"></div>
+    <div class="float-card fc1"><div class="score">4.8 <span class="stars" aria-hidden="true">★★★★★</span></div><div class="hint">116 Google reviews</div></div>
+    <div class="float-card fc2"><span class="open" id="openNow">Checking...</span><span class="hint">St. Patrick&rsquo;s Square, R. Aboitiz St</span></div>
+  </div>
+</div>
+</div>
 
-<div id="app">
-  <div class="top"><h1><img src="images/logo.svg" alt="" width="34" height="34">Cebu Dental Care · Appointments</h1>
-    <div><button class="btn ghost" id="ref" type="button">Refresh</button> <button class="btn ghost" id="csv" type="button">Export CSV</button> <button class="btn ghost" id="pwb" type="button">Change password</button> <button class="btn ghost" id="out" type="button">Sign out</button></div></div>
-  <div class="stats">
-    <div class="stat"><b id="s1">0</b><span>Needs confirmation</span></div>
-    <div class="stat"><b id="s2">0</b><span>Today</span></div>
-    <div class="stat"><b id="s3">0</b><span>Next 7 days</span></div>
-    <div class="stat"><b id="s4">0</b><span>All bookings</span></div>
+<div class="marquee" aria-hidden="true"><div class="track">
+<span>Gentle, painless techniques</span><span>QR-code e-receipts</span><span>Same-week slots</span><span>Transparent pricing</span><span>Gmail-verified booking</span><span>Walk-ins welcome</span>
+<span>Gentle, painless techniques</span><span>QR-code e-receipts</span><span>Same-week slots</span><span>Transparent pricing</span><span>Gmail-verified booking</span><span>Walk-ins welcome</span>
+</div></div>
+
+<div class="wrap">
+<section id="services"><div class="sec-head rv">
+<div class="kick">Our services</div><h2 class="t">What we treat</h2>
+<p class="lead">X-rays and intra-oral cameras help us show you what we see before we treat. Filter by what you need, then pick a service to start booking.</p>
+<div class="filters" id="filters">
+  <button class="chip on" data-f="all" type="button">All services</button>
+  <button class="chip" data-f="general" type="button">General</button>
+  <button class="chip" data-f="cosmetic" type="button">Cosmetic</button>
+  <button class="chip" data-f="urgent" type="button">Urgent care</button>
+</div></div>
+<div class="grid" id="svcGrid"></div></section>
+
+<section id="about"><div class="split">
+<div class="vis rv"><img src="images/clinic.jpg" alt="Modern, calming dental clinic reception" width="554" height="360"><div class="badge"><b>4.8 ★</b><span>rated on Google</span></div></div>
+<div class="rv"><div class="kick">Why patients choose us</div><h2 class="t">A calmer kind of dental visit</h2>
+<div class="feat">
+<div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.3 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21z"/></svg><div><b>Gentle by default</b><p>Numbing done carefully, calm explanations, and breaks whenever you need them.</p></div></div>
+<div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 14h5"/></svg><div><b>Clear pricing, no surprises</b><p>You get an honest estimate before any work begins — and a proper receipt after.</p></div></div>
+<div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16v12H4zM4 8l8 6 8-6"/></svg><div><b>QR-code e-receipts</b><p>Your confirmed booking arrives in your Gmail inbox with a scannable QR code.</p></div></div>
+<div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><div><b>Booked in under a minute</b><p>Pick a service, date and time online — the clinic confirms your slot the same day.</p></div></div>
+</div></div></div></section>
+
+<section><div class="split">
+<div class="rv"><div class="kick">Meet the team</div><h2 class="t">People who remember your name</h2>
+<p class="lead">Our dentists and staff have been caring for Cebu families for over a decade — many of our patients have been with us since their first check-up.</p>
+<div class="cta"><a class="btn ghost" href="#book" data-book>Meet us at your first visit</a></div></div>
+<div class="vis rv"><img src="images/team.jpg" alt="Our friendly dental team smiling in the clinic" width="612" height="408"><div class="badge"><b>10+ yrs</b><span>serving Cebu City</span></div></div>
+</div></section>
+
+<section><div class="sec-head rv"><div class="kick">Testimonials</div><h2 class="t">What patients say</h2><p class="lead">Excerpts from our Google reviews.</p></div>
+<div class="grid quotes">
+<blockquote class="q rv"><div class="stars" aria-hidden="true">★★★★★</div><p>So gentle and kind. The best dentist I&rsquo;ve ever visited.</p><div class="au"><img src="images/avatar1.jpg" alt="" width="44" height="44"><cite>Google review</cite></div></blockquote>
+<blockquote class="q rv"><div class="stars" aria-hidden="true">★★★★★</div><p>She is a perfectionist, so no worries on getting what you want.</p><div class="au"><img src="images/avatar2.jpg" alt="" width="44" height="44"><cite>Google review, dental bonding</cite></div></blockquote>
+<blockquote class="q rv"><div class="stars" aria-hidden="true">★★★★★</div><p>Their expertise and professionalism were evident throughout my visit.</p><div class="au"><img src="images/avatar3.jpg" alt="" width="44" height="44"><cite>Google review</cite></div></blockquote>
+</div></section>
+
+<section id="book"><div class="sec-head rv"><div class="kick">Book online</div><h2 class="t">Book an appointment</h2>
+<p class="lead">Pick a date to see which times are still open. You need a Gmail account to book — once the clinic confirms, your receipt with a QR code is emailed to you.</p></div>
+<div class="book-wrap rv">
+<div class="steps"><div class="step on" id="st1"><b>1</b>Service &amp; schedule</div><div class="step" id="st2"><b>2</b>Your details</div><div class="step" id="st3"><b>3</b>Confirmation</div></div>
+<div class="book">
+<div>
+<form id="f" novalidate>
+  <div><label for="svc">Service</label><select id="svc"><option value="">Select a service</option></select><p class="err" id="e-svc"></p></div>
+  <div><label for="date">Date (closed Sundays)</label><input id="date" type="date"><p class="err" id="e-date"></p></div>
+  <fieldset><legend>Time</legend><div class="slots" id="slots"></div><p class="err" id="e-time"></p></fieldset>
+  <div class="f2">
+    <div><label for="name">Full name</label><input id="name" autocomplete="name"><p class="err" id="e-name"></p></div>
+    <div><label for="phone">Mobile number</label><input id="phone" type="tel" autocomplete="tel" placeholder="+63 9XX XXX XXXX"><p class="err" id="e-phone"></p></div>
   </div>
-  <div class="filters">
-    <select id="fs"><option value="">All statuses</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select>
-    <select id="fr"><option value="up">Upcoming</option><option value="today">Today</option><option value="past">Past</option><option value="all">All dates</option></select>
-    <input type="search" id="q" placeholder="Search name, phone, code, service">
-  </div>
-  <div class="tbl"><table><thead><tr><th>Date</th><th>Time</th><th>Patient</th><th>Service</th><th>Code</th><th>Status</th><th>Actions</th></tr></thead><tbody id="rows"></tbody></table><div class="empty" id="empty" style="display:none">No appointments match.</div></div>
-  <p class="meta" id="meta"></p>
+  <div><label for="note">Notes (optional)</label><textarea id="note" rows="3" placeholder="Pain, allergies, or anything we should know"></textarea></div>
+  <button class="btn" type="submit" id="go">Book appointment</button><p class="err" id="e-form"></p>
+</form>
+<div class="done" id="done" role="status" tabindex="-1">
+  <h3>Request received 🎉</h3><p>Show this QR code or reference at the clinic. It is also under <strong>My bookings</strong>.</p>
+  <div class="qr"><img id="qrimg" alt="Booking QR code"></div><div class="code" id="ref"></div><dl class="sum" id="sum"></dl>
+  <p>Your slot is held. When the clinic confirms, the receipt with QR code is sent to <strong id="mail"></strong>.</p>
+  <div class="cta"><button class="btn" id="ics" type="button">Add to calendar</button><button class="btn ghost" id="copy" type="button">Copy code</button><button class="btn ghost" id="again" type="button">Book another</button></div>
 </div>
 </div>
+<div class="side">
+<div class="blk"><h3>How it works</h3><ol><li>Log in with your Gmail account.</li><li>Pick a service, date and time.</li><li>The clinic confirms your slot.</li><li>Receipt with QR code arrives in your email.</li></ol></div>
+<div class="blk"><h3>Before you come</h3><ul><li>Bring a valid ID and any recent dental X-rays.</li><li>Tell us about medicines and allergies.</li><li>Arrive 10 minutes early for your first visit.</li></ul></div>
+<div class="blk"><h3>Clinic hours</h3><p>Monday to Saturday, 9:00 AM – 6:00 PM<br>Closed on Sundays</p></div>
+<div class="blk"><h3>Contact</h3><p><a href="tel:+63322533206">(032) 253 3206</a> · <a href="tel:+639062421519">+63 906 242 1519</a><br><a href="http://cebudentalcare.com/">cebudentalcare.com</a> · <a href="https://www.facebook.com/cebudentalcarecenter/">Facebook</a> · <a href="https://www.instagram.com/cebudentalcarecenter/">Instagram</a></p></div>
+</div></div></div></section>
+
+<section id="mybk" style="display:none"><h2 class="t">My bookings</h2><p class="lead">Your appointments and QR codes. Confirmed bookings are also emailed to you.</p><div id="mylist"></div></section>
+
+<section id="faq"><div class="sec-head rv"><div class="kick">FAQ</div><h2 class="t">Common questions</h2></div>
+<div class="faq-list rv">
+<details open><summary>Is my booking confirmed right away?</summary><p>Your slot is held immediately. Once the clinic confirms, a receipt with your QR code is emailed to your Gmail.</p></details>
+<details><summary>Can I book for the same day?</summary><p>Online booking opens from tomorrow. For same-day or urgent care, call the clinic.</p></details>
+<details><summary>How do I cancel or reschedule?</summary><p>Log in, open My bookings and press Cancel. To reschedule, cancel and book a new time.</p></details>
+<details><summary>How much will my treatment cost?</summary><p>Every card above shows an honest starting estimate. You always receive a full quote before any work begins.</p></details>
+<details><summary>Do you accept HMO or card payments?</summary><p>We accept cash, GCash, major cards and many HMO plans — bring your card or HMO ID and we&rsquo;ll check your coverage.</p></details>
+<details><summary>Where are you?</summary><p>Unit 13, St. Patrick&rsquo;s Square, R. Aboitiz St, Cebu City 6000 — see the map below.</p></details>
+</div></section>
+
+<section id="visit"><div class="visit rv">
+<div class="info">
+<div class="kick">Visit us</div><h3>Find the clinic</h3>
+<div class="vrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s-6-5.1-6-10a6 6 0 1 1 12 0c0 4.9-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg><div><b>Address</b><p>Unit 13, St. Patrick&rsquo;s Square, R. Aboitiz St, Cebu City 6000</p></div></div>
+<div class="vrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><div><b>Hours</b><p>Mon–Sat 9:00 AM – 6:00 PM · Closed Sundays</p></div></div>
+<div class="vrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 4h4l2 5-3 2a13 13 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><div><b>Phone</b><p><a href="tel:+63322533206">(032) 253 3206</a> · <a href="tel:+639062421519">+63 906 242 1519</a></p></div></div>
+<div class="cta"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Cebu+Dental+Care+Center+Aboitiz+St+Cebu+City" target="_blank" rel="noopener">Open in Google Maps</a></div>
+</div>
+<iframe src="https://www.google.com/maps?q=St.+Patrick%27s+Square,+R.+Aboitiz+St,+Cebu+City&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Clinic location map"></iframe>
+</div></section>
+</div>
+
+<footer><div class="wrap">
+<div class="fgrid">
+<div><a class="logo" href="#top" style="margin-bottom:12px"><img src="images/logo.svg" alt="" width="36" height="36">Cebu Dental Care Center</a><p>Thoughtful, gentle dental care for Cebu families since 2014. Your details are used only to manage your appointment.</p></div>
+<div><h4>Explore</h4><ul><li><a href="#services">Services</a></li><li><a href="#about">Why us</a></li><li><a href="#book">Book online</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+<div><h4>Services</h4><ul><li><a href="#services">Check-up &amp; cleaning</a></li><li><a href="#services">Dental bonding</a></li><li><a href="#services">Cosmetic dentistry</a></li><li><a href="#services">Emergency care</a></li></ul></div>
+<div><h4>Contact</h4><ul><li><a href="tel:+63322533206">(032) 253 3206</a></li><li><a href="tel:+639062421519">+63 906 242 1519</a></li><li><a href="http://cebudentalcare.com/">cebudentalcare.com</a></li><li><a href="https://www.facebook.com/cebudentalcarecenter/">Facebook</a> · <a href="https://www.instagram.com/cebudentalcarecenter/">Instagram</a></li></ul></div>
+</div>
+<div class="fbot"><span>© Cebu Dental Care Center, Cebu City, Philippines.</span><span>Mon–Sat 9 AM – 6 PM · Closed Sundays</span></div>
+</div></footer>
+
+<div class="bar"><a class="btn ghost" href="tel:+639062421519">Call</a><a class="btn" href="#book" data-book>Book</a></div>
+<a class="fab" href="tel:+639062421519" aria-label="Emergency call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 4h4l2 5-3 2a13 13 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>
+<button id="topBtn" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+</div>
+
+<dialog id="auth"><div class="am">
+<aside class="ai"><img src="images/auth.jpg" alt="A happy patient after treatment"><h3>Cebu Dental Care Center</h3>
+<ul><li>Book your visit in under a minute</li><li>QR code receipt sent to your Gmail</li><li>View and cancel bookings anytime</li></ul></aside>
+<div class="ar"><button class="x" id="aclose" type="button" aria-label="Close">&times;</button>
+<div class="tabs"><button class="on" id="t1" type="button">Log in</button><button id="t2" type="button">Create account</button></div>
+<h2 id="ah">Welcome back</h2><p class="hint" id="as">Log in to book and manage your appointments.</p><p class="hint" id="why" style="color:var(--brand);font-weight:800"></p>
+<form id="af" novalidate>
+<div id="nmw" style="display:none"><label for="an">Full name</label><input id="an" autocomplete="name" placeholder="Juan Dela Cruz"></div>
+<div><label for="ae">Gmail address</label><input id="ae" type="email" autocomplete="username" placeholder="yourname@gmail.com"></div>
+<div><label for="ap">Password</label><div class="pw"><input id="ap" type="password" autocomplete="current-password" placeholder="At least 8 characters"><button type="button" id="pwt" aria-label="Show password">Show</button></div></div>
+<p class="err" id="aerr" role="alert"></p><p class="ok" id="aok"></p>
+<button class="btn" id="ago" type="submit" style="justify-content:center">Log in</button>
+<p class="hint" style="text-align:center">Only real Gmail accounts can register. We verify by email.</p></form></div></div></dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>
 (function(){
 var db=window.supabase.createClient("https://ircukhvpmbvrprqiqauk.supabase.co","sb_publishable_bVZXbJoPjPGoWfCuQM1BSA_9UXNVysf");
-var $=function(i){return document.getElementById(i)},d=document,all=[],timer=null;
-function mins(t){var m=/(\d+):(\d+) (AM|PM)/.exec(t);return m?(+m[1]%12+(m[3]==="PM"?12:0))*60+ +m[2]:0}
+var $=function(i){return document.getElementById(i)};
+var times=["9:00 AM","10:00 AM","11:00 AM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM"];
+var svcs=[["Check-up and cleaning","Exam, cleaning, and advice for everyday oral health.","general"],["Dental bonding","Reshape chips and gaps for a natural-looking smile.","cosmetic"],["Cosmetic consultation","Talk through smile goals and the options that fit.","cosmetic"],["Fillings and restorations","Repair damaged or worn teeth.","general"],["Toothache or emergency","Pain, swelling, or a broken tooth.","urgent"]];
+var photos={"Check-up and cleaning":"svc-checkup.jpg","Dental bonding":"svc-bonding.jpg","Cosmetic consultation":"svc-cosmetic.jpg","Fillings and restorations":"svc-filling.jpg","Toothache or emergency":"svc-emergency.jpg"};
+var meta={"Check-up and cleaning":["45–60 min","₱800"],["Dental bonding","1–2 hrs","₱3,000"],"Cosmetic consultation":["30 min","₱500"],"Fillings and restorations":["30–60 min","₱1,500"],"Toothache or emergency":["Same day","₱1,000"]};
+var d=document,user=null,after=null,mode="in";
+for(var i=0;i<14;i++){var bb=d.createElement("b"),z=10+Math.random()*34;bb.style.cssText="width:"+z+"px;height:"+z+"px;left:"+Math.random()*100+"%;animation-duration:"+(14+Math.random()*16)+"s;animation-delay:-"+Math.random()*20+"s";d.querySelector(".bg").appendChild(bb)}
+svcs.forEach(function(s){
+  var o=d.createElement("option");o.textContent=s[0];$("svc").appendChild(o);
+  var c=d.createElement("div");c.className="card rv";c.dataset.cat=s[2];var m=meta[s[0]];
+  c.innerHTML="<div class='ph'><img alt=''><span class='tag'>"+s[2]+"</span>"+(s[2]==="urgent"?"<span class='urg'>Urgent</span>":"")+"</div><div class='bd'><div class='meta'><span class='dur'>🕑 "+m[0]+"</span></div><h3></h3><p></p><div class='foot'><span class='price'>"+m[1]+"<small>est. from</small></span><button class='btn small' type='button'>Book this →</button></div></div>";
+  var im=c.querySelector("img");im.src="images/"+photos[s[0]];im.alt=s[0];im.width=640;im.height=400;
+  c.querySelector("h3").textContent=s[0];c.querySelector(".bd p").textContent=s[1];
+  c.querySelector("button").onclick=function(){need(function(){$("svc").value=s[0];location.hash="book";$("date").focus()},"Log in or create an account to book.")};
+  $("svcGrid").appendChild(c);
+});
+$("slots").innerHTML=times.map(function(t){return '<label><input type="radio" name="time" value="'+t+'"><span>'+t+'</span></label>'}).join("");
 function iso(x){return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
-var today=iso(new Date()),week=new Date();week.setDate(week.getDate()+7);week=iso(week);
-async function boot(){
-  var s=await db.auth.getSession();
-  if(!s.data.session){location.replace("index.html");return}
-  var ok=await db.rpc("is_staff");
-  if(ok.error||!ok.data){location.replace("index.html");return}
-  $("app").style.display="block";load();timer=setInterval(load,60000);
+var tm=new Date();tm.setDate(tm.getDate()+1);$("date").min=iso(tm);
+var ph=new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Manila"}));
+var op=ph.getDay()!==0&&ph.getHours()>=9&&ph.getHours()<18;
+$("openNow").textContent=op?"Open now · closes 6 PM":"Closed now";
+if(!op)$("openNow").style.background="var(--line)",$("openNow").style.color="var(--ink)";
+function radios(){return document.querySelectorAll('input[name="time"]')}
+async function loadSlots(){
+  var v=$("date").value;$("e-time").textContent="";
+  radios().forEach(function(r){r.checked=false;r.disabled=!v});
+  if(!v)return;
+  if(new Date(v+"T00:00").getDay()===0){radios().forEach(function(r){r.disabled=true});$("e-time").textContent="We are closed on Sundays. Pick another day.";return}
+  var res=await db.rpc("booked_slots",{p_date:v});
+  if(res.error){return}
+  var taken=res.data||[];
+  radios().forEach(function(r){r.disabled=taken.indexOf(r.value)>-1});
 }
-db.auth.onAuthStateChange(function(ev){if(ev==="SIGNED_OUT")location.replace("index.html")});
-$("out").onclick=async function(){clearInterval(timer);await db.auth.signOut();location.replace("index.html")};
-boot();
-
-async function load(){
-  var r=await db.from("appointments").select("*").order("appt_date",{ascending:true}).limit(1000);
-  if(r.error){$("meta").textContent="Could not load data: "+r.error.message;return}
-  all=r.data;render();
-  $("meta").textContent="Updated "+new Date().toLocaleTimeString()+". Refreshes every minute.";
+radios().forEach(function(r){r.disabled=true});
+$("date").addEventListener("change",loadSlots);
+var last=null;
+function qrUrl(c){var q=qrcode(0,"M");q.addData("CDCC:"+c);q.make();return q.createDataURL(5,2)}
+function need(fn,msg){if(user){fn();return}after=fn;openAuth("in",msg)}
+function openAuth(m,msg){setMode(m);$("why").textContent=msg||"";$("aerr").textContent="";$("aok").textContent="";$("auth").showModal()}
+function setMode(m){mode=m;$("t1").classList.toggle("on",m==="in");$("t2").classList.toggle("on",m==="up");$("nmw").style.display=m==="up"?"block":"none";$("ago").textContent=m==="up"?"Create account":"Log in";$("ap").autocomplete=m==="up"?"new-password":"current-password";$("ah").textContent=m==="up"?"Create your account":"Welcome back";$("as").textContent=m==="up"?"Use your Gmail so we can email your receipt.":"Log in to book and manage your appointments."}
+$("pwt").onclick=function(){var h=$("ap").type==="password";$("ap").type=h?"text":"password";this.textContent=h?"Hide":"Show"};
+$("t1").onclick=function(){setMode("in")};$("t2").onclick=function(){setMode("up")};$("aclose").onclick=function(){$("auth").close()};
+$("login").onclick=function(){openAuth("in","")};
+document.querySelectorAll("[data-book]").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();need(function(){location.hash="book";$("svc").focus()},"Log in or create an account to book an appointment.")})});
+$("navmy").addEventListener("click",function(e){if(!user){e.preventDefault();need(function(){location.hash="mybk"},"Log in to see your bookings.")}});
+$("out").onclick=async function(){await db.auth.signOut()};
+function setUser(s){
+  user=s?s.user:null;
+  $("login").style.display=user?"none":"";$("out").style.display=user?"":"none";
+  $("who").textContent=user?user.email:"";$("mybk").style.display=user?"block":"none";$("navmy").style.display=user?"":"none";
+  if(user){var n=user.user_metadata&&user.user_metadata.full_name;if(n&&!$("name").value)$("name").value=n;loadMine()}else{$("mylist").innerHTML=""}
 }
-function view(){
-  var s=$("fs").value,rg=$("fr").value,q=$("q").value.trim().toLowerCase();
-  return all.filter(function(a){
-    if(s&&a.status!==s)return false;
-    if(rg==="up"&&a.appt_date<today)return false;
-    if(rg==="today"&&a.appt_date!==today)return false;
-    if(rg==="past"&&a.appt_date>=today)return false;
-    if(q&&[a.patient_name,a.phone,a.ref_code,a.service].join(" ").toLowerCase().indexOf(q)<0)return false;
-    return true;
-  }).sort(function(a,b){var o=a.appt_date<b.appt_date?-1:a.appt_date>b.appt_date?1:mins(a.appt_time)-mins(b.appt_time);return rg==="past"?-o:o});
-}
-function cell(tr,txt){var td=d.createElement("td");td.textContent=txt;tr.appendChild(td);return td}
-function render(){
-  var act=all.filter(function(a){return a.status!=="cancelled"});
-  $("s1").textContent=all.filter(function(a){return a.status==="pending"&&a.appt_date>=today}).length;
-  $("s2").textContent=act.filter(function(a){return a.appt_date===today}).length;
-  $("s3").textContent=act.filter(function(a){return a.appt_date>=today&&a.appt_date<=week}).length;
-  $("s4").textContent=all.length;
-  var list=view(),tb=$("rows");tb.innerHTML="";
-  $("empty").style.display=list.length?"none":"block";
-  list.forEach(function(a){
-    var tr=d.createElement("tr");
-    cell(tr,new Date(a.appt_date+"T00:00").toLocaleDateString("en-PH",{weekday:"short",month:"short",day:"numeric"}));
-    cell(tr,a.appt_time);
-    var p=cell(tr,a.patient_name);p.appendChild(d.createElement("br"));
-    var ph=d.createElement("a");ph.href="tel:"+a.phone.replace(/[^\d+]/g,"");ph.textContent=a.phone;p.appendChild(ph);
-    var em=d.createElement("div");em.className="note";em.textContent=a.email||"";p.appendChild(em);
-    if(a.notes){var n=d.createElement("div");n.className="note";n.textContent="Note: "+a.notes;p.appendChild(n)}
-    cell(tr,a.service);cell(tr,a.ref_code||"");
-    var st=d.createElement("td"),pl=d.createElement("span");pl.className="pill "+a.status;pl.textContent=a.status;st.appendChild(pl);tr.appendChild(st);
-    var ac=d.createElement("td"),w=d.createElement("div");w.className="acts";
-    function b(label,status,cls){var x=d.createElement("button");x.className="btn sm "+(cls||"ghost");x.textContent=label;x.onclick=function(){setStatus(a,status)};w.appendChild(x)}
-    if(a.status==="pending")b("Confirm","confirmed","");
-    if(a.status==="confirmed")b("Complete","completed","");
-    if(a.status==="confirmed")b("Resend receipt","resend","");
-    if(a.status==="pending"||a.status==="confirmed")b("Cancel","cancelled","");
-    if(a.status==="cancelled"){var x=d.createElement("button");x.className="btn sm bad";x.textContent="Delete";x.onclick=function(){delRow(a)};w.appendChild(x)}
-    ac.appendChild(w);tr.appendChild(ac);tb.appendChild(tr);
+db.auth.onAuthStateChange(function(ev,s){setTimeout(function(){setUser(s)},0)});
+db.auth.getSession().then(function(r){setUser(r.data.session)});
+$("af").addEventListener("submit",async function(e){
+  e.preventDefault();var er=$("aerr");er.textContent="";$("aok").textContent="";
+  var em=$("ae").value.trim().toLowerCase(),pw=$("ap").value,nm=$("an").value.trim();
+  if(!/^[a-z0-9._%+-]+@gmail\.com$/.test(em)){er.textContent="Please use a real Gmail address (yourname@gmail.com).";return}
+  if(pw.length<8){er.textContent="Password must be at least 8 characters.";return}
+  if(mode==="up"&&nm.length<2){er.textContent="Enter your full name.";return}
+  var b=$("ago");b.disabled=true;
+  if(mode==="up"){
+    var r=await db.auth.signUp({email:em,password:pw,options:{data:{full_name:nm},emailRedirectTo:location.origin+location.pathname}});
+    b.disabled=false;
+    if(r.error){er.textContent=/database|gmail/i.test(r.error.message)?"Only Gmail accounts can register.":r.error.message;return}
+    if(r.data.user&&r.data.user.identities&&!r.data.user.identities.length){er.textContent="This Gmail is already registered. Please log in.";return}
+    if(r.data.session){$("auth").close();if(after){var f=after;after=null;f()}return}
+    $("aok").textContent="Almost done! We sent a verification link to your Gmail. Click it, then log in here.";setMode("in");return;
+  }
+  var r2=await db.auth.signInWithPassword({email:em,password:pw});b.disabled=false;
+  if(r2.error){er.textContent=/confirm/i.test(r2.error.message)?"Please verify your Gmail first. Check your inbox for the link.":"Wrong email or password.";return}
+  var st=await db.rpc("is_staff");
+  if(st.data){location.href="admin.html";return}
+  $("auth").close();$("ap").value="";if(after){var g=after;after=null;g()}
+});
+async function loadMine(){
+  var r=await db.from("appointments").select("id,service,appt_date,appt_time,status,ref_code").eq("user_id",user.id).order("appt_date",{ascending:false});
+  var box=$("mylist");box.innerHTML="";
+  if(r.error||!r.data.length){box.innerHTML="<p class='lead'>No bookings yet.</p>";return}
+  r.data.forEach(function(a){
+    var w=d.createElement("div");w.className="bk";
+    var t=d.createElement("div");
+    var h=d.createElement("strong");h.textContent=a.service;t.appendChild(h);t.appendChild(d.createElement("br"));
+    t.appendChild(d.createTextNode(pretty(a.appt_date)+", "+a.appt_time+" · "+a.ref_code+" "));
+    var p=d.createElement("span");p.className="pill "+a.status;p.textContent=a.status;t.appendChild(p);
+    if(a.status==="pending"){var n=d.createElement("p");n.className="hint";n.textContent="Waiting for clinic confirmation. Receipt will be emailed.";t.appendChild(n)}
+    if((a.status==="pending"||a.status==="confirmed")&&a.appt_date>=iso(new Date())){
+      var c=d.createElement("button");c.className="btn ghost small";c.type="button";c.textContent="Cancel";c.style.marginTop="8px";
+      c.onclick=async function(){if(!confirm("Cancel this booking?"))return;var x=await db.rpc("cancel_my_appointment",{p_id:a.id});if(x.error||!x.data)alert("Could not cancel. Please call the clinic.");loadMine();loadSlots()};
+      t.appendChild(c)}
+    w.appendChild(t);
+    if(a.status!=="cancelled"){var q=d.createElement("div");q.className="qr";var im=d.createElement("img");im.alt="QR "+a.ref_code;im.src=qrUrl(a.ref_code);q.appendChild(im);w.appendChild(q)}
+    box.appendChild(w);
   });
 }
-async function sendReceipt(a){
-  if(!a.email){alert("No email on this booking (made before accounts existed).");return}
-  var r=await db.functions.invoke("send-receipt",{body:{id:a.id}});
-  alert(r.error?"Receipt email failed: "+r.error.message:"Receipt with QR code emailed to "+a.email+".");
-}
-async function setStatus(a,s){
-  if(s==="resend"){sendReceipt(a);return}
-  if(s==="cancelled"&&!confirm("Cancel "+a.patient_name+"'s appointment? The slot will reopen."))return;
-  var r=await db.from("appointments").update({status:s}).eq("id",a.id);
-  if(r.error){alert("Update failed: "+r.error.message);return}
-  if(s==="confirmed")await sendReceipt(a);
-  load();
-}
-async function delRow(a){
-  if(!confirm("Permanently delete this record?"))return;
-  var r=await db.from("appointments").delete().eq("id",a.id);
-  if(r.error){alert("Delete failed: "+r.error.message);return}
-  load();
-}
-$("pwb").onclick=async function(){
-  var p=prompt("New password (at least 8 characters):");
-  if(p===null)return;
-  if(p.length<8){alert("Password must be at least 8 characters.");return}
-  var r=await db.auth.updateUser({password:p});
-  alert(r.error?"Could not change password: "+r.error.message:"Password changed.");
+function rows(dl,r){dl.innerHTML="";r.forEach(function(x){var a=d.createElement("dt"),b=d.createElement("dd");a.textContent=x[0];b.textContent=x[1];dl.appendChild(a);dl.appendChild(b)})}
+function pretty(v){return new Date(v+"T00:00").toLocaleDateString("en-PH",{weekday:"long",year:"numeric",month:"long",day:"numeric"})}
+$("f").addEventListener("submit",async function(e){
+  e.preventDefault();$("e-form").textContent="";
+  if(!user){need(function(){},"Log in or create an account to book.");return}
+  var v={svc:$("svc").value,date:$("date").value,name:$("name").value.trim(),phone:$("phone").value.trim()};
+  var t=document.querySelector('input[name="time"]:checked'),bad=false;
+  function chk(id,ok,m){if(id!=="time"||!$("e-time").textContent.startsWith("We are"))$("e-"+id).textContent=ok?"":m;if(!ok)bad=true}
+  chk("svc",v.svc,"Choose a service.");chk("date",v.date,"Pick a date.");chk("time",t,"Pick a time.");
+  chk("name",v.name.length>1,"Enter your name.");chk("phone",/^[+\d][\d\s()-]{6,}$/.test(v.phone),"Enter a valid phone number.");
+  if(bad)return;
+  var b=$("go");b.disabled=true;b.textContent="Booking...";
+  var res=await db.rpc("book_appointment",{p_service:v.svc,p_date:v.date,p_time:t.value,p_name:v.name,p_phone:v.phone,p_notes:$("note").value.trim()||null});
+  b.disabled=false;b.textContent="Book appointment";
+  if(res.error){
+    var m=res.error.message||"";
+    if(m.indexOf("login_required")>-1){need(function(){},"Please log in to book.")}
+    else if(m.indexOf("slot_taken")>-1){$("e-form").textContent="That time was just taken. Pick another.";loadSlots()}
+    else $("e-form").textContent="Could not book online ("+m+"). Please call (032) 253 3206.";
+    return;
+  }
+  last={code:res.data,v:v,time:t.value};
+  $("ref").textContent=res.data;$("qrimg").src=qrUrl(res.data);$("mail").textContent=user.email;loadMine();
+  rows($("sum"),[["Service",v.svc],["Date",pretty(v.date)],["Time",t.value],["Name",v.name],["Phone",v.phone]]);
+  $("f").style.display="none";$("done").style.display="block";$("done").focus();
+  $("st3").classList.add("on");
+});
+$("again").onclick=function(){$("done").style.display="none";$("f").style.display="grid";$("f").reset();$("st3").classList.remove("on");loadSlots()};
+$("copy").onclick=function(){var b=$("copy");try{navigator.clipboard.writeText(last.code).then(function(){b.textContent="Copied"})}catch(x){b.textContent=last.code}};
+$("ics").onclick=function(){
+  var m=/(\d+):(\d+) (AM|PM)/.exec(last.time),h=+m[1]%12+(m[3]==="PM"?12:0),p=function(n){return String(n).padStart(2,"0")};
+  var day=last.v.date.replace(/-/g,""),s=day+"T"+p(h)+m[2]+"00",en=day+"T"+p(h+1)+m[2]+"00";
+  var txt=["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT","UID:"+last.code+"@cebudentalcare","DTSTAMP:"+s,"DTSTART:"+s,"DTEND:"+en,"SUMMARY:Dental visit - Cebu Dental Care Center","LOCATION:Unit 13 St. Patrick's Square R. Aboitiz St Cebu City","DESCRIPTION:Ref "+last.code+" ("+last.v.svc+")","END:VEVENT","END:VCALENDAR"].join("\r\n");
+  var a=d.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"text/calendar"}));a.download="dental-appointment.ics";a.click();
 };
-["fs","fr"].forEach(function(i){$(i).addEventListener("change",render)});
-$("q").addEventListener("input",render);$("ref").onclick=load;
-$("csv").onclick=function(){
-  var rows=[["Date","Time","Patient","Phone","Service","Code","Status","Notes","Created"]].concat(view().map(function(a){return [a.appt_date,a.appt_time,a.patient_name,a.phone,a.service,a.ref_code,a.status,a.notes||"",a.created_at]}));
-  var t=rows.map(function(r){return r.map(function(c){c=String(c==null?"":c);if(/^[=+\-@]/.test(c))c="'"+c;return '"'+c.replace(/"/g,'""')+'"'}).join(",")}).join("\n");
-  var a=d.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));a.download="appointments-"+today+".csv";a.click();
-};
+})();
+</script>
+<script>
+/* ===== UI enhancements: theme, reveal, counters, filters, steps, scroll ===== */
+(function(){
+var $=function(i){return document.getElementById(i)},d=document;
+/* theme toggle */
+var btn=$("themeBtn");
+function cur(){return d.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light")}
+function paint(){var dark=cur()==="dark";btn.innerHTML=dark?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'}
+btn.onclick=function(){var next=cur()==="dark"?"light":"dark";d.documentElement.dataset.theme=next;try{localStorage.setItem("cdcc-theme",next)}catch(e){}paint()};
+paint();
+/* reveal on scroll */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.1});
+d.querySelectorAll(".rv").forEach(function(el){io.observe(el)});
+/* counters */
+var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;cio.unobserve(e.target);
+  var el=e.target,n=parseFloat(el.dataset.n),dec=+(el.dataset.dec||0),t0=null;
+  function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1200,1),v=n*(1-Math.pow(1-p,3));el.textContent=v.toFixed(dec);if(p<1)requestAnimationFrame(step)}
+  requestAnimationFrame(step)})},{threshold:.6});
+d.querySelectorAll("[data-n]").forEach(function(el){cio.observe(el)});
+/* service filter chips */
+$("filters").addEventListener("click",function(e){var b=e.target.closest(".chip");if(!b)return;
+  d.querySelectorAll("#filters .chip").forEach(function(c){c.classList.toggle("on",c===b)});
+  var f=b.dataset.f;d.querySelectorAll("#svcGrid .card").forEach(function(c){c.classList.toggle("hide",f!=="all"&&c.dataset.cat!==f)})});
+/* booking step indicator */
+function stepUpd(){$("st2").classList.toggle("on",!!($("date").value||d.querySelector('input[name="time"]:checked')))}
+$("svc").addEventListener("change",stepUpd);
+$("date").addEventListener("change",stepUpd);
+$("slots").addEventListener("change",stepUpd);
+/* scroll progress + header + top button */
+var nav=$("nav"),prog=$("prog"),top=$("topBtn");
+addEventListener("scroll",function(){
+  var h=d.documentElement,max=h.scrollHeight-innerHeight;
+  prog.style.width=(max>0?(scrollY/max)*100:0)+"%";
+  nav.classList.toggle("scrolled",scrollY>10);
+  top.classList.toggle("show",scrollY>600);
+},{passive:true});
+top.onclick=function(){scrollTo({top:0,behavior:"smooth"})};
 })();
 </script>
 </body>
