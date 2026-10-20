@@ -1,6 +1,9 @@
 -- Run AFTER 1, 2, 3. Supabase > SQL Editor.
 -- Adds: customer accounts (Gmail only), bookings tied to the account, QR-ready refs.
 
+-- Remove any older 7-argument version that conflicts with the new one
+drop function if exists public.book_appointment(text,date,text,text,text,text,text);
+
 alter table public.appointments add column if not exists user_id uuid references auth.users on delete set null;
 alter table public.appointments add column if not exists email text;
 
