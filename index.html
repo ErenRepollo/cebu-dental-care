@@ -286,7 +286,7 @@ $("f").addEventListener("submit",async function(e){
     var m=res.error.message||"";
     if(m.indexOf("login_required")>-1){need(function(){},"Please log in to book.")}
     else if(m.indexOf("slot_taken")>-1){$("e-form").textContent="That time was just taken. Pick another.";loadSlots()}
-    else $("e-form").textContent="Could not book online. Please call (032) 253 3206.";
+    else $("e-form").textContent="Could not book online ("+m+"). Please call (032) 253 3206.";
     return;
   }
   last={code:res.data,v:v,time:t.value};
