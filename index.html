@@ -80,7 +80,7 @@ h2.t{font-size:clamp(1.9rem,4.4vw,2.8rem);margin-bottom:10px}.lead{color:var(--m
 .wiz h3{font-size:1.5rem;margin-bottom:14px}
 .pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .pick label{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:16px;padding:12px;cursor:pointer;background:var(--bg);font-weight:700;font-size:.92rem;transition:.15s}
-.pick label img{width:44px;height:44px;flex:none}.pick input{position:absolute;opacity:0}
+.pick label img{width:44px;height:44px;flex:none}.pick label{position:relative}.pick input{position:absolute;opacity:0;width:1px;height:1px;left:0;top:0;pointer-events:none}
 .pick label:has(input:checked){border-color:var(--brand);background:var(--soft);box-shadow:0 0 0 3px rgba(31,138,137,.2)}
 .dates{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory}
 .dates button{flex:0 0 66px;scroll-snap-align:start;border:1.5px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink);padding:9px 4px;cursor:pointer;font:700 1.15rem "Plus Jakarta Sans",sans-serif;line-height:1.2}
@@ -115,6 +115,44 @@ footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--muted);f
 @media(max-width:960px){.links{display:none}.hero,.book,.loc{grid-template-columns:1fr}.frame{aspect-ratio:4/3}.feat{grid-template-columns:repeat(2,1fr)}.rev{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.bento{grid-template-columns:repeat(2,1fr)}.bento>*,.bento>*:nth-child(n+4){grid-column:span 1}.bento>*:last-child{grid-column:span 2}.bar{display:flex}.who{display:none}}
 @media(max-width:560px){.bento{grid-template-columns:1fr}.bento>*:last-child{grid-column:span 1}.gal{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,150px)}.gal figure:first-child{grid-column:span 2;grid-row:span 1}.slots{grid-template-columns:repeat(3,1fr)}.wiz,.side{padding:20px}.feat{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.bg i,.bg b,.float,.dot{animation:none}.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+.gal figure{cursor:zoom-in}
+#lb{background:#000;border:0;padding:0;border-radius:18px;width:min(1000px,96vw);max-width:none;overflow:hidden}
+#lb::backdrop{background:rgba(0,0,0,.85)}#lb img{display:block;width:100%;max-height:82vh;object-fit:contain;background:#000}
+#lb .lc{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#fff;font-size:.85rem;text-shadow:0 1px 4px #000}
+#lb button{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.85);color:#000;font-size:1.4rem;cursor:pointer}
+#lb .p{left:10px}#lb .n{right:10px}#lb .z{top:14px;right:14px;transform:none}
+/* header + responsive polish */
+.btn,.links a,.logo span{white-space:nowrap}
+nav.top .wrap{max-width:1120px;flex-wrap:nowrap;gap:16px}
+.logo{flex:none;min-width:0}.links{gap:18px;flex:0 1 auto;margin:0 auto}.act{flex:none}
+.who{display:none!important}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:transparent;cursor:pointer;padding:0;flex:none;position:relative}
+.burger span{position:absolute;left:11px;right:11px;height:2px;border-radius:2px;background:var(--ink);transition:transform .25s,opacity .2s,top .25s}
+.burger span:nth-child(1){top:14px}.burger span:nth-child(2){top:20px}.burger span:nth-child(3){top:26px}
+nav.top.open .burger span:nth-child(1){top:20px;transform:rotate(45deg)}nav.top.open .burger span:nth-child(2){opacity:0}nav.top.open .burger span:nth-child(3){top:20px;transform:rotate(-45deg)}
+.mnav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 24px 40px rgba(0,0,0,.22);padding:6px 20px 20px;max-height:calc(100vh - 70px);max-height:calc(100dvh - 70px);overflow-y:auto}
+nav.top.open .mnav{display:block}
+.mnav a.l{display:block;padding:14px 4px;border-bottom:1px solid var(--line);text-decoration:none;font-weight:700;font-size:1.02rem}
+.mrow{display:grid;gap:10px;margin-top:16px}.mrow .btn{width:100%;padding:14px}.mrow .hint{text-align:center;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:1180px){.links{gap:14px;font-size:.88rem}.logo span{font-size:1.05rem}}
+@media(max-width:1024px){
+  nav.top .wrap{padding-top:8px;padding-bottom:8px}
+  .links,.act .btn,.who{display:none!important}.burger{display:block}.act{margin-left:auto}
+  html{scroll-padding-top:72px}
+}
+@media(min-width:1025px){.mnav{display:none!important}}
+body{padding-bottom:0}.frame img{object-position:50% 22%}
+@media(max-width:960px){body{padding-bottom:76px}.hero{padding:30px 0 20px;gap:26px}.frame{max-width:560px;width:100%;margin:0 auto}section{padding:42px 0}}
+@media(max-width:560px){
+  .wrap{padding:0 16px}nav.top .wrap{gap:10px}.logo span{font-size:1rem}.logo img{width:32px;height:32px}
+  .alert{font-size:.8rem;padding-left:8px;padding-right:8px}
+  .hero h1{font-size:2.3rem}.hero p.sub{font-size:1rem}.cta .btn{flex:1 1 100%}.trust{gap:8px 16px;font-size:.84rem}
+  .frame{aspect-ratio:4/5;border-radius:26px}.float{padding:9px 12px;font-size:.78rem}.float b{font-size:.85rem}
+  .stat{padding:14px 8px}.stat b{font-size:1.9rem}section{padding:34px 0}
+  .dates button{flex-basis:58px}.nav2 .btn{flex:1}.bk{padding:14px}.card{padding:18px}
+  .mnav{padding-left:16px;padding-right:16px}
+}
+@media(max-width:360px){.logo span{display:none}.hero h1{font-size:2rem}.slots{grid-template-columns:repeat(2,1fr)}}
 /* login / signup */
 dialog{padding:0;border:0;border-radius:26px;overflow:hidden;width:min(860px,calc(100% - 24px));box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .am{display:grid;grid-template-columns:.9fr 1.1fr;min-height:520px}
@@ -131,29 +169,20 @@ dialog{padding:0;border:0;border-radius:26px;overflow:hidden;width:min(860px,cal
 .pw{position:relative}.pw input{padding-right:68px}.pw button{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--brand);font:700 .85rem Figtree,sans-serif;cursor:pointer;padding:6px 8px}
 @media(max-width:700px){.am{grid-template-columns:1fr}.ai{display:none}.ar{padding:24px 20px}}
 
-/* gallery captions + photo lightbox */
-.gal figure{cursor:zoom-in}
-.gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;background:linear-gradient(transparent,rgba(10,35,42,.78));color:#fff;font-size:.88rem;font-weight:600;opacity:0;transform:translateY(8px);transition:.3s}
-.gal figure:hover figcaption,.gal figure:focus-visible figcaption{opacity:1;transform:none}
-.lb{position:fixed;inset:0;z-index:200;background:rgba(8,26,31,.92);display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.lb.open{display:flex}
-.lb img{max-width:min(90vw,1000px);max-height:80vh;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
-.lb .cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;color:#fff;font-weight:600}
-.lb .cnt{position:absolute;top:26px;left:22px;color:#fff;font-size:.9rem;opacity:.85}
-.lb .x,.lb .nav{position:absolute;border:1px solid var(--line);background:rgba(255,255,255,.12);color:#fff;width:44px;height:44px;border-radius:50%;font-size:1.25rem;cursor:pointer;display:grid;place-items:center;transition:background .2s}
-.lb .x:hover,.lb .nav:hover{background:rgba(255,255,255,.28)}
-.lb .x{top:18px;right:18px}
-.lb .nav.prev{left:14px;top:50%;transform:translateY(-50%)}
-.lb .nav.next{right:14px;top:50%;transform:translateY(-50%)}
 </style>
 </head>
 <body>
 <div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
 <div class="alert">Toothache or dental emergency? Call <a href="tel:+639062421519"><strong>+63 906 242 1519</strong></a> now.</div>
-<nav class="top"><div class="wrap">
-  <a class="logo" href="#top"><img src="images/logo.svg" alt="" width="36" height="36">Cebu Dental Care Center</a>
+<nav class="top" id="topnav"><div class="wrap">
+  <a class="logo" href="#top"><img src="images/logo.svg" alt="" width="36" height="36"><span>Cebu Dental Care Center</span></a>
   <div class="links"><a href="#services">Services</a><a href="#why">Why us</a><a href="#gallery">Gallery</a><a href="#reviews">Reviews</a><a href="#mybk" id="navmy" style="display:none">My bookings</a><a href="#visit">Visit</a><a href="#faq">FAQ</a></div>
   <div class="act"><button class="ic-btn" id="theme" type="button" aria-label="Toggle dark mode">◐</button><span class="who" id="who"></span><button class="btn ghost sm" id="login" type="button">Log in</button><button class="btn ghost sm" id="out" type="button" style="display:none">Log out</button><a class="btn sm" href="#book" data-book>Book now</a></div>
+  <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div>
+<div class="mnav" id="mnav">
+  <a class="l" href="#services">Services</a><a class="l" href="#why">Why us</a><a class="l" href="#gallery">Gallery</a><a class="l" href="#reviews">Reviews</a><a class="l" href="#mybk" id="mnavmy" style="display:none">My bookings</a><a class="l" href="#visit">Visit</a><a class="l" href="#faq">FAQ</a>
+  <div class="mrow"><span class="hint" id="mwho"></span><button class="btn ghost" id="mlogin" type="button">Log in / Sign up</button><button class="btn ghost" id="mout" type="button" style="display:none">Log out</button><a class="btn" href="#book" data-book>Book now</a></div>
 </div></nav>
 <main id="top"><div class="wrap">
 <div class="hero">
@@ -183,11 +212,11 @@ dialog{padding:0;border:0;border-radius:26px;overflow:hidden;width:min(860px,cal
 
 <section id="gallery"><div class="center rv"><div class="eyebrow">Inside the clinic</div><h2 class="t">Take a look around</h2></div>
 <div class="gal rv" style="margin-top:24px">
-<figure tabindex="0" role="button" aria-label="View photo: Reception and waiting lounge"><img src="images/photos/clinic-1.jpg" alt="Clinic interior" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>Reception &amp; waiting lounge</figcaption></figure>
-<figure tabindex="0" role="button" aria-label="View photo: Treatment room"><img src="images/photos/clinic-2.jpg" alt="Treatment room" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>Treatment room</figcaption></figure>
-<figure tabindex="0" role="button" aria-label="View photo: Digital X-ray equipment"><img src="images/photos/clinic-3.jpg" alt="Dental equipment" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>Digital X-ray, on screen</figcaption></figure>
-<figure tabindex="0" role="button" aria-label="View photo: Dentist with patient"><img src="images/photos/clinic-4.jpg" alt="Dentist with patient" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>We show you what we see</figcaption></figure>
-<figure tabindex="0" role="button" aria-label="View photo: Our team"><img src="images/photos/clinic-5.jpg" alt="Our team" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"><figcaption>Our team</figcaption></figure></div></section>
+<figure><img src="images/photos/clinic-1.jpg" alt="Clinic interior" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure>
+<figure><img src="images/photos/clinic-2.jpg" alt="Treatment room" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure>
+<figure><img src="images/photos/clinic-3.jpg" alt="Dental equipment" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure>
+<figure><img src="images/photos/clinic-4.jpg" alt="Dentist with patient" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure>
+<figure><img src="images/photos/clinic-5.jpg" alt="Dental team (sample photo)" loading="lazy" onerror="this.onerror=null;this.src='images/ph.svg'"></figure></div></section>
 
 <section id="reviews"><div class="center rv"><div class="eyebrow">Reviews</div><h2 class="t">What patients say</h2><p class="lead">Excerpts from Google reviews.</p></div>
 <div class="rev rv">
@@ -240,6 +269,7 @@ dialog{padding:0;border:0;border-radius:26px;overflow:hidden;width:min(860px,cal
 <footer><div class="wrap">Cebu Dental Care Center, Cebu City, Philippines. Your details are used only to manage your appointment.</div></footer>
 <div class="bar"><a class="btn ghost" href="tel:+639062421519">Call</a><a class="btn" href="#book" data-book>Book</a></div>
 <div id="toast" role="status"></div>
+<dialog id="lb" aria-label="Photo viewer"><img id="lbi" alt=""><div class="lc" id="lbc"></div><button class="p" id="lbp" type="button" aria-label="Previous photo">&#8249;</button><button class="n" id="lbn" type="button" aria-label="Next photo">&#8250;</button><button class="z" id="lbz" type="button" aria-label="Close">&times;</button></dialog>
 <dialog id="auth"><div class="am">
 <aside class="ai"><img src="images/hero.svg" alt="" width="400" height="300"><h3>Cebu Dental Care Center</h3>
 <ul><li>Book your visit in under a minute</li><li>QR code receipt sent to your Gmail</li><li>View and cancel bookings anytime</li></ul></aside>
@@ -352,11 +382,13 @@ $("t1").onclick=function(){setMode("in")};$("t2").onclick=function(){setMode("up
 $("login").onclick=function(){openAuth("in","")};
 d.querySelectorAll("[data-book]").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();need(function(){$("book").scrollIntoView()},"Log in or create an account to book an appointment.")})});
 $("navmy").addEventListener("click",function(e){if(!user){e.preventDefault();need(function(){$("mybk").scrollIntoView()},"Log in to see your bookings.")}});
+$("mlogin").onclick=function(){openAuth("in","")};$("mout").onclick=function(){$("out").click()};
+$("mnavmy").addEventListener("click",function(e){if(!user){e.preventDefault();need(function(){$("mybk").scrollIntoView()},"Log in to see your bookings.")}});
 $("out").onclick=async function(){await db.auth.signOut();toast("Logged out")};
 function setUser(s){
   user=s?s.user:null;
   $("login").style.display=user?"none":"";$("out").style.display=user?"":"none";
-  $("who").textContent=user?user.email:"";$("mybk").style.display=user?"block":"none";$("navmy").style.display=user?"":"none";
+  $("who").textContent=user?user.email:"";$("mwho").textContent=user?user.email:"";$("mlogin").style.display=user?"none":"";$("mout").style.display=user?"":"none";$("mnavmy").style.display=user?"":"none";$("mybk").style.display=user?"block":"none";$("navmy").style.display=user?"":"none";
   if(user){var n=user.user_metadata&&user.user_metadata.full_name;if(n&&!$("name").value)$("name").value=n;loadMine()}else{$("mylist").innerHTML=""}
 }
 db.auth.onAuthStateChange(function(ev,s){setTimeout(function(){setUser(s)},0)});
@@ -405,42 +437,20 @@ function drawMine(){
     t.appendChild(row);w.appendChild(t);
     if(a.status!=="cancelled"){var qd=d.createElement("div");qd.className="qr";var im=d.createElement("img");im.alt="QR "+a.ref_code;im.src=qrUrl(a.ref_code);qd.appendChild(im);w.appendChild(qd)}
     box.appendChild(w)})}
+var figs=Array.prototype.slice.call(d.querySelectorAll(".gal figure")),gi=0;
+function showG(i){gi=(i+figs.length)%figs.length;var im=figs[gi].querySelector("img");$("lbi").src=im.src;$("lbi").alt=im.alt;$("lbc").textContent=im.alt+" ("+(gi+1)+"/"+figs.length+")"}
+figs.forEach(function(f,i){f.tabIndex=0;f.setAttribute("role","button");f.onclick=function(){showG(i);$("lb").showModal()};f.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();f.click()}}});
+$("lbp").onclick=function(){showG(gi-1)};$("lbn").onclick=function(){showG(gi+1)};$("lbz").onclick=function(){$("lb").close()};
+$("lb").addEventListener("click",function(e){if(e.target===$("lb"))$("lb").close()});
+d.addEventListener("keydown",function(e){if(!$("lb").open)return;if(e.key==="ArrowLeft")showG(gi-1);if(e.key==="ArrowRight")showG(gi+1)});
+var nav=$("topnav");
+function menu(o){nav.classList.toggle("open",o);$("burger").setAttribute("aria-expanded",o);$("burger").setAttribute("aria-label",o?"Close menu":"Open menu")}
+$("burger").onclick=function(e){e.stopPropagation();menu(!nav.classList.contains("open"))};
+$("mnav").addEventListener("click",function(e){if(e.target.closest("a,button"))menu(false)});
+d.addEventListener("click",function(e){if(!nav.contains(e.target))menu(false)});
+d.addEventListener("keydown",function(e){if(e.key==="Escape")menu(false)});
+addEventListener("resize",function(){if(innerWidth>1024)menu(false)});
 live();
-})();
-</script>
-<div class="lb" id="lb" role="dialog" aria-label="Photo viewer" aria-modal="true">
-  <button class="x" id="lbX" aria-label="Close">&#10005;</button>
-  <span class="cnt" id="lbCnt"></span>
-  <img id="lbImg" alt="">
-  <button class="nav prev" id="lbPrev" aria-label="Previous photo">&#8249;</button>
-  <button class="nav next" id="lbNext" aria-label="Next photo">&#8250;</button>
-  <div class="cap" id="lbCap"></div>
-</div>
-<script>
-(function(){
-  var figs=[].slice.call(document.querySelectorAll(".gal figure"));
-  if(!figs.length)return;
-  var lb=document.getElementById("lb"),img=document.getElementById("lbImg"),
-      cap=document.getElementById("lbCap"),cnt=document.getElementById("lbCnt"),i=0;
-  function show(n){i=(n+figs.length)%figs.length;
-    var f=figs[i],im=f.querySelector("img");
-    img.src=im.currentSrc||im.src;img.alt=im.alt;
-    cap.textContent=(f.querySelector("figcaption")||{textContent:im.alt}).textContent;
-    cnt.textContent=(i+1)+" / "+figs.length;}
-  function open(n){show(n);lb.classList.add("open");document.body.style.overflow="hidden";}
-  function close(){lb.classList.remove("open");document.body.style.overflow="";}
-  figs.forEach(function(f,n){
-    f.addEventListener("click",function(){open(n)});
-    f.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();open(n)}});});
-  document.getElementById("lbX").onclick=close;
-  document.getElementById("lbPrev").onclick=function(){show(i-1)};
-  document.getElementById("lbNext").onclick=function(){show(i+1)};
-  lb.addEventListener("click",function(e){if(e.target===lb)close()});
-  document.addEventListener("keydown",function(e){
-    if(!lb.classList.contains("open"))return;
-    if(e.key==="Escape")close();
-    if(e.key==="ArrowLeft")show(i-1);
-    if(e.key==="ArrowRight")show(i+1);});
 })();
 </script>
 </body>
