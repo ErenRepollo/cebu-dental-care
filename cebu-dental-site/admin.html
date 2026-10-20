@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<title>Staff | Cebu Dental Care Center</title>
+<style>
+:root{--bg:#f1f6f6;--surface:#fff;--ink:#12303a;--muted:#4d6a72;--brand:#1f8a89;--on:#fff;--soft:#dff0ee;--line:#c8e0dd;--bad:#c0392b;--warn:#b7791f;box-sizing:border-box}
+@media(prefers-color-scheme:dark){:root{--bg:#0e2227;--surface:#153038;--ink:#e6f3f2;--muted:#9bbcc0;--brand:#4fc3c0;--on:#08262a;--soft:#1b3d45;--line:#2a4f58;--bad:#ff8a7a;--warn:#f2c14e}}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 .95rem/1.5 system-ui,-apple-system,Segoe UI,sans-serif;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+:focus-visible{outline:3px solid #f2c14e;outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-size:1.3rem;margin:0}
+.btn{background:var(--brand);color:var(--on);border:0;border-radius:8px;padding:8px 14px;font:600 .9rem system-ui,sans-serif;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.sm{padding:4px 9px;font-size:.8rem}.btn.bad{background:var(--bad);color:#fff}
+input,select{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px}
+.login{max-width:360px;margin:12vh auto;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:12px}
+.login input{width:100%}.err{color:var(--bad);min-height:1.2em;margin:0}
+#app{display:none}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font-size:1.8rem;line-height:1.1}.stat span{color:var(--muted);font-size:.85rem}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.filters input[type=search]{flex:1;min-width:160px}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:820px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.8rem;color:var(--muted);font-weight:600}tr:last-child td{border-bottom:0}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.78rem;font-weight:700;background:var(--soft)}
+.pill.pending{background:#fdeccb;color:#7a4b00}.pill.confirmed{background:var(--brand);color:var(--on)}
+.pill.cancelled{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}.note{color:var(--muted);font-size:.82rem;max-width:220px}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.meta{color:var(--muted);font-size:.82rem;margin:8px 2px}
+body{background:radial-gradient(900px 500px at 8% -10%,rgba(31,138,137,.22),transparent 60%),radial-gradient(700px 420px at 100% 20%,rgba(242,193,78,.18),transparent 60%),var(--bg);background-attachment:fixed;min-height:100vh}
+h1{display:flex;align-items:center;gap:10px}h1 img{border-radius:9px}
+.stats{grid-template-columns:repeat(4,1fr)}
+.stat{display:flex;flex-direction:column;justify-content:center;box-shadow:0 6px 20px rgba(18,48,58,.07);border-top:4px solid var(--brand)}
+.stat:nth-child(1){border-top-color:#f2c14e}.stat:nth-child(3){border-top-color:#7fd1ce}
+.filters select{flex:0 0 auto}.filters input[type=search]{flex:1 1 220px}
+.tbl{box-shadow:0 6px 20px rgba(18,48,58,.07)}thead th{background:var(--soft);color:var(--ink)}
+tbody tr:hover{background:rgba(31,138,137,.06)}
+.top>div{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.filters select,.filters input{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="app">
+  <div class="top"><h1><img src="images/logo.svg" alt="" width="34" height="34">Cebu Dental Care · Appointments</h1>
+    <div><button class="btn ghost" id="ref" type="button">Refresh</button> <button class="btn ghost" id="csv" type="button">Export CSV</button> <button class="btn ghost" id="pwb" type="button">Change password</button> <button class="btn ghost" id="out" type="button">Sign out</button></div></div>
+  <div class="stats">
+    <div class="stat"><b id="s1">0</b><span>Needs confirmation</span></div>
+    <div class="stat"><b id="s2">0</b><span>Today</span></div>
+    <div class="stat"><b id="s3">0</b><span>Next 7 days</span></div>
+    <div class="stat"><b id="s4">0</b><span>All bookings</span></div>
+  </div>
+  <div class="filters">
+    <select id="fs"><option value="">All statuses</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select>
+    <select id="fr"><option value="up">Upcoming</option><option value="today">Today</option><option value="past">Past</option><option value="all">All dates</option></select>
+    <input type="search" id="q" placeholder="Search name, phone, code, service">
+  </div>
+  <div class="tbl"><table><thead><tr><th>Date</th><th>Time</th><th>Patient</th><th>Service</th><th>Code</th><th>Status</th><th>Actions</th></tr></thead><tbody id="rows"></tbody></table><div class="empty" id="empty" style="display:none">No appointments match.</div></div>
+  <p class="meta" id="meta"></p>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function(){
+var db=window.supabase.createClient("https://ircukhvpmbvrprqiqauk.supabase.co","sb_publishable_bVZXbJoPjPGoWfCuQM1BSA_9UXNVysf");
+var $=function(i){return document.getElementById(i)},d=document,all=[],timer=null;
+function mins(t){var m=/(\d+):(\d+) (AM|PM)/.exec(t);return m?(+m[1]%12+(m[3]==="PM"?12:0))*60+ +m[2]:0}
+function iso(x){return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
+var today=iso(new Date()),week=new Date();week.setDate(week.getDate()+7);week=iso(week);
+async function boot(){
+  var s=await db.auth.getSession();
+  if(!s.data.session){location.replace("index.html");return}
+  var ok=await db.rpc("is_staff");
+  if(ok.error||!ok.data){location.replace("index.html");return}
+  $("app").style.display="block";load();timer=setInterval(load,60000);
+}
+db.auth.onAuthStateChange(function(ev){if(ev==="SIGNED_OUT")location.replace("index.html")});
+$("out").onclick=async function(){clearInterval(timer);await db.auth.signOut();location.replace("index.html")};
+boot();
+
+async function load(){
+  var r=await db.from("appointments").select("*").order("appt_date",{ascending:true}).limit(1000);
+  if(r.error){$("meta").textContent="Could not load data: "+r.error.message;return}
+  all=r.data;render();
+  $("meta").textContent="Updated "+new Date().toLocaleTimeString()+". Refreshes every minute.";
+}
+function view(){
+  var s=$("fs").value,rg=$("fr").value,q=$("q").value.trim().toLowerCase();
+  return all.filter(function(a){
+    if(s&&a.status!==s)return false;
+    if(rg==="up"&&a.appt_date<today)return false;
+    if(rg==="today"&&a.appt_date!==today)return false;
+    if(rg==="past"&&a.appt_date>=today)return false;
+    if(q&&[a.patient_name,a.phone,a.ref_code,a.service].join(" ").toLowerCase().indexOf(q)<0)return false;
+    return true;
+  }).sort(function(a,b){var o=a.appt_date<b.appt_date?-1:a.appt_date>b.appt_date?1:mins(a.appt_time)-mins(b.appt_time);return rg==="past"?-o:o});
+}
+function cell(tr,txt){var td=d.createElement("td");td.textContent=txt;tr.appendChild(td);return td}
+function render(){
+  var act=all.filter(function(a){return a.status!=="cancelled"});
+  $("s1").textContent=all.filter(function(a){return a.status==="pending"&&a.appt_date>=today}).length;
+  $("s2").textContent=act.filter(function(a){return a.appt_date===today}).length;
+  $("s3").textContent=act.filter(function(a){return a.appt_date>=today&&a.appt_date<=week}).length;
+  $("s4").textContent=all.length;
+  var list=view(),tb=$("rows");tb.innerHTML="";
+  $("empty").style.display=list.length?"none":"block";
+  list.forEach(function(a){
+    var tr=d.createElement("tr");
+    cell(tr,new Date(a.appt_date+"T00:00").toLocaleDateString("en-PH",{weekday:"short",month:"short",day:"numeric"}));
+    cell(tr,a.appt_time);
+    var p=cell(tr,a.patient_name);p.appendChild(d.createElement("br"));
+    var ph=d.createElement("a");ph.href="tel:"+a.phone.replace(/[^\d+]/g,"");ph.textContent=a.phone;p.appendChild(ph);
+    var em=d.createElement("div");em.className="note";em.textContent=a.email||"";p.appendChild(em);
+    if(a.notes){var n=d.createElement("div");n.className="note";n.textContent="Note: "+a.notes;p.appendChild(n)}
+    cell(tr,a.service);cell(tr,a.ref_code||"");
+    var st=d.createElement("td"),pl=d.createElement("span");pl.className="pill "+a.status;pl.textContent=a.status;st.appendChild(pl);tr.appendChild(st);
+    var ac=d.createElement("td"),w=d.createElement("div");w.className="acts";
+    function b(label,status,cls){var x=d.createElement("button");x.className="btn sm "+(cls||"ghost");x.textContent=label;x.onclick=function(){setStatus(a,status)};w.appendChild(x)}
+    if(a.status==="pending")b("Confirm","confirmed","");
+    if(a.status==="confirmed")b("Complete","completed","");
+    if(a.status==="confirmed")b("Resend receipt","resend","");
+    if(a.status==="pending"||a.status==="confirmed")b("Cancel","cancelled","");
+    if(a.status==="cancelled"){var x=d.createElement("button");x.className="btn sm bad";x.textContent="Delete";x.onclick=function(){delRow(a)};w.appendChild(x)}
+    ac.appendChild(w);tr.appendChild(ac);tb.appendChild(tr);
+  });
+}
+async function sendReceipt(a){
+  if(!a.email){alert("No email on this booking (made before accounts existed).");return}
+  var r=await db.functions.invoke("send-receipt",{body:{id:a.id}});
+  alert(r.error?"Receipt email failed: "+r.error.message:"Receipt with QR code emailed to "+a.email+".");
+}
+async function setStatus(a,s){
+  if(s==="resend"){sendReceipt(a);return}
+  if(s==="cancelled"&&!confirm("Cancel "+a.patient_name+"'s appointment? The slot will reopen."))return;
+  var r=await db.from("appointments").update({status:s}).eq("id",a.id);
+  if(r.error){alert("Update failed: "+r.error.message);return}
+  if(s==="confirmed")await sendReceipt(a);
+  load();
+}
+async function delRow(a){
+  if(!confirm("Permanently delete this record?"))return;
+  var r=await db.from("appointments").delete().eq("id",a.id);
+  if(r.error){alert("Delete failed: "+r.error.message);return}
+  load();
+}
+$("pwb").onclick=async function(){
+  var p=prompt("New password (at least 8 characters):");
+  if(p===null)return;
+  if(p.length<8){alert("Password must be at least 8 characters.");return}
+  var r=await db.auth.updateUser({password:p});
+  alert(r.error?"Could not change password: "+r.error.message:"Password changed.");
+};
+["fs","fr"].forEach(function(i){$(i).addEventListener("change",render)});
+$("q").addEventListener("input",render);$("ref").onclick=load;
+$("csv").onclick=function(){
+  var rows=[["Date","Time","Patient","Phone","Service","Code","Status","Notes","Created"]].concat(view().map(function(a){return [a.appt_date,a.appt_time,a.patient_name,a.phone,a.service,a.ref_code,a.status,a.notes||"",a.created_at]}));
+  var t=rows.map(function(r){return r.map(function(c){c=String(c==null?"":c);if(/^[=+\-@]/.test(c))c="'"+c;return '"'+c.replace(/"/g,'""')+'"'}).join(",")}).join("\n");
+  var a=d.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));a.download="appointments-"+today+".csv";a.click();
+};
+})();
+</script>
+</body>
+</html>
