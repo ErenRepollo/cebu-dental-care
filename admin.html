@@ -39,12 +39,6 @@ th{font-size:.8rem;color:var(--muted);font-weight:600}tr:last-child td{border-bo
 </head>
 <body>
 <div class="wrap">
-<form class="login" id="login">
-  <h1>Staff sign in</h1>
-  <label>Email<input id="em" type="email" autocomplete="username" required></label>
-  <label>Password<input id="pw" type="password" autocomplete="current-password" required></label>
-  <button class="btn" type="submit">Sign in</button><p class="err" id="lerr"></p>
-</form>
 
 <div id="app">
   <div class="top"><h1>Appointments</h1>
@@ -68,26 +62,21 @@ th{font-size:.8rem;color:var(--muted);font-weight:600}tr:last-child td{border-bo
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 (function(){
-try{localStorage.removeItem("sb-ircukhvpmbvrprqiqauk-auth-token")}catch(x){}
-// Session lives in memory only: opening or refreshing this page always asks for the login.
-var db=window.supabase.createClient("https://ircukhvpmbvrprqiqauk.supabase.co","sb_publishable_bVZXbJoPjPGoWfCuQM1BSA_9UXNVysf",{auth:{persistSession:false,autoRefreshToken:true,detectSessionInUrl:false}});
+var db=window.supabase.createClient("https://ircukhvpmbvrprqiqauk.supabase.co","sb_publishable_bVZXbJoPjPGoWfCuQM1BSA_9UXNVysf");
 var $=function(i){return document.getElementById(i)},d=document,all=[],timer=null;
 function mins(t){var m=/(\d+):(\d+) (AM|PM)/.exec(t);return m?(+m[1]%12+(m[3]==="PM"?12:0))*60+ +m[2]:0}
 function iso(x){return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
 var today=iso(new Date()),week=new Date();week.setDate(week.getDate()+7);week=iso(week);
-async function enter(session){
+async function boot(){
+  var s=await db.auth.getSession();
+  if(!s.data.session){location.replace("index.html");return}
   var ok=await db.rpc("is_staff");
-  if(ok.error||!ok.data){await db.auth.signOut();$("lerr").textContent="This account is not authorised for staff access.";return}
-  $("login").style.display="none";$("app").style.display="block";load();
-  clearInterval(timer);timer=setInterval(load,60000);
+  if(ok.error||!ok.data){location.replace("index.html");return}
+  $("app").style.display="block";load();timer=setInterval(load,60000);
 }
-$("login").addEventListener("submit",async function(e){
-  e.preventDefault();$("lerr").textContent="";
-  var r=await db.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});
-  if(r.error){$("lerr").textContent="Wrong email or password.";return}
-  enter(r.data.session);
-});
-$("out").onclick=async function(){await db.auth.signOut();clearInterval(timer);$("app").style.display="none";$("login").style.display="grid";$("pw").value=""};
+db.auth.onAuthStateChange(function(ev){if(ev==="SIGNED_OUT")location.replace("index.html")});
+$("out").onclick=async function(){clearInterval(timer);await db.auth.signOut();location.replace("index.html")};
+boot();
 
 async function load(){
   var r=await db.from("appointments").select("*").order("appt_date",{ascending:true}).limit(1000);
@@ -121,7 +110,7 @@ function render(){
     cell(tr,a.appt_time);
     var p=cell(tr,a.patient_name);p.appendChild(d.createElement("br"));
     var ph=d.createElement("a");ph.href="tel:"+a.phone.replace(/[^\d+]/g,"");ph.textContent=a.phone;p.appendChild(ph);
-    if(a.email){var em=d.createElement("div");em.className="note";em.textContent=a.email;p.appendChild(em)}
+    var em=d.createElement("div");em.className="note";em.textContent=a.email||"";p.appendChild(em);
     if(a.notes){var n=d.createElement("div");n.className="note";n.textContent="Note: "+a.notes;p.appendChild(n)}
     cell(tr,a.service);cell(tr,a.ref_code||"");
     var st=d.createElement("td"),pl=d.createElement("span");pl.className="pill "+a.status;pl.textContent=a.status;st.appendChild(pl);tr.appendChild(st);
@@ -129,15 +118,23 @@ function render(){
     function b(label,status,cls){var x=d.createElement("button");x.className="btn sm "+(cls||"ghost");x.textContent=label;x.onclick=function(){setStatus(a,status)};w.appendChild(x)}
     if(a.status==="pending")b("Confirm","confirmed","");
     if(a.status==="confirmed")b("Complete","completed","");
+    if(a.status==="confirmed")b("Resend receipt","resend","");
     if(a.status==="pending"||a.status==="confirmed")b("Cancel","cancelled","");
     if(a.status==="cancelled"){var x=d.createElement("button");x.className="btn sm bad";x.textContent="Delete";x.onclick=function(){delRow(a)};w.appendChild(x)}
     ac.appendChild(w);tr.appendChild(ac);tb.appendChild(tr);
   });
 }
+async function sendReceipt(a){
+  if(!a.email){alert("No email on this booking (made before accounts existed).");return}
+  var r=await db.functions.invoke("send-receipt",{body:{id:a.id}});
+  alert(r.error?"Receipt email failed: "+r.error.message:"Receipt with QR code emailed to "+a.email+".");
+}
 async function setStatus(a,s){
+  if(s==="resend"){sendReceipt(a);return}
   if(s==="cancelled"&&!confirm("Cancel "+a.patient_name+"'s appointment? The slot will reopen."))return;
   var r=await db.from("appointments").update({status:s}).eq("id",a.id);
   if(r.error){alert("Update failed: "+r.error.message);return}
+  if(s==="confirmed")await sendReceipt(a);
   load();
 }
 async function delRow(a){

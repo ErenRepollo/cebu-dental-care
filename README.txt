@@ -1,21 +1,28 @@
 Cebu Dental Care Center - appointment website
 =============================================
-DEPLOY ONLY index.html AND admin.html. Keep everything else private
-(database/, supabase/ and this README must NOT be public).
+Files
+  index.html                         Patient site + the ONE login for patients and staff
+  admin.html                         Staff dashboard (no login form; redirects to index.html if not staff)
+  database/1..3 *.sql                Run in order (skip ones already run)
+  database/4-accounts-qr.sql         NEW: Gmail-only accounts, bookings tied to account
+  supabase/functions/send-receipt    NEW: emails the receipt + QR through Brevo
 
-Default admin (database/3): admin@cebudentalcare.com / CebuDental#Admin2026
-  -> sign in at /admin.html and click "Change password" immediately.
+How login works
+  Patients and admin both use "Log in / Sign up" on index.html.
+  Staff accounts are sent to admin.html automatically. Patients stay on the site.
+  Default admin: admin@cebudentalcare.com / CebuDental#Admin2026 (change it right away).
 
-Database: run database/1 (skip if done), 2, 3, then 4 in Supabase SQL Editor.
+Setup
+  1. Supabase > SQL Editor: run database/4-accounts-qr.sql.
+  2. Authentication > Providers > Email: turn ON "Confirm email" (this is what proves the Gmail is real).
+     Authentication > URL Configuration: set Site URL to your live website address.
+  3. Brevo > Senders: verify the sender email you will use (check its inbox for Brevo's link).
+  4. Deploy the email function (Supabase CLI):
+       supabase functions deploy send-receipt
+       supabase secrets set BREVO_API_KEY=<your NEW key> SENDER_EMAIL=<verified sender email>
+     (or Dashboard > Edge Functions > send-receipt, paste index.ts, then add the two secrets)
+  5. Upload index.html and admin.html to your host.
 
-Email (Brevo) setup
-  1. Brevo > Senders: verify erenrepollo@gmail.com. Create a NEW API key
-     (delete any key that was shared in chat).
-  2. Terminal:
-       npm i -g supabase
-       supabase login
-       supabase link --project-ref ircukhvpmbvrprqiqauk
-       supabase secrets set BREVO_API_KEY=your-new-key WEBHOOK_SECRET=pick-a-long-random-string
-       supabase functions deploy notify --no-verify-jwt
-  3. Edit database/4: replace CHANGE_ME with the same WEBHOOK_SECRET, then run it.
-  4. Test: make a booking with your own email; check inbox and spam.
+Security
+  - NEVER put the Brevo key in an HTML file or chat. It lives only as a Supabase secret.
+  - Booking QR content is "CDCC:<ref code>".
