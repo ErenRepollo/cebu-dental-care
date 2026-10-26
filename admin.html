@@ -132,10 +132,14 @@ async function setStatus(a,s){
 }
 async function sendReceipt(a,b){
   if(b)b.disabled=true;
-  var r=await db.functions.invoke("send-receipt",{body:{id:a.id}});
+  try{
+    var ss=(await db.auth.getSession()).data.session;
+    var r=await fetch("/api/send-receipt",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+ss.access_token},body:JSON.stringify({id:a.id})});
+    var j=await r.json().catch(function(){return{}});
+    if(!r.ok||j.error)toast("Receipt not sent: "+(j.error||r.status));
+    else toast("Receipt with QR sent to "+a.email);
+  }catch(e){toast("Receipt not sent: "+e.message)}
   if(b)b.disabled=false;
-  if(r.error||(r.data&&r.data.error))toast("Receipt not sent: "+((r.data&&r.data.error)||r.error.message));
-  else toast("Receipt with QR sent to "+a.email);
 }
 
 $("out").onclick=async function(){await db.auth.signOut();location.replace("index.html")};
