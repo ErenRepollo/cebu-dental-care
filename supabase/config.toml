@@ -1,0 +1,4 @@
+# notify is called by the database trigger (pg_net) with no login token,
+# so it protects itself with the x-webhook-secret header instead.
+[functions.notify]
+verify_jwt = false

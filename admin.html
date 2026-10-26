@@ -134,7 +134,7 @@ async function sendReceipt(a,b){
   if(b)b.disabled=true;
   try{
     var ss=(await db.auth.getSession()).data.session;
-    var r=await fetch("/api/send-receipt",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+ss.access_token},body:JSON.stringify({id:a.id})});
+    var r=await fetch("https://ircukhvpmbvrprqiqauk.supabase.co/functions/v1/send-receipt",{method:"POST",headers:{"Content-Type":"application/json","apikey":"sb_publishable_bVZXbJoPjPGoWfCuQM1BSA_9UXNVysf","Authorization":"Bearer "+ss.access_token},body:JSON.stringify({id:a.id})});
     var j=await r.json().catch(function(){return{}});
     if(!r.ok||j.error)toast("Receipt not sent: "+(j.error||r.status));
     else toast("Receipt with QR sent to "+a.email);

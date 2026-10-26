@@ -42,10 +42,8 @@ Deno.serve(async (req) => {
         await send(record.email, record.patient_name, "We received your appointment request",
           wrap("Request received", `<p>Hi ${esc(record.patient_name)}, your slot is held. The clinic will contact you to confirm.</p>${details(record)}<p>Keep your reference code to view or cancel your booking on our website.</p>`));
     } else if (type === "UPDATE" && old_record?.status !== record.status && record.email) {
-      if (record.status === "confirmed")
-        await send(record.email, record.patient_name, "Your appointment is confirmed",
-          wrap("Appointment confirmed", `<p>Hi ${esc(record.patient_name)}, we look forward to seeing you.</p>${details(record)}`));
-      else if (record.status === "cancelled")
+      // "confirmed" email (with QR) is sent by the send-receipt function, so it is skipped here.
+      if (record.status === "cancelled")
         await send(record.email, record.patient_name, "Your appointment was cancelled",
           wrap("Appointment cancelled", `<p>Hi ${esc(record.patient_name)}, this appointment was cancelled. Call us or book a new time on our website.</p>${details(record)}`));
     }
